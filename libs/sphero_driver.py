@@ -686,6 +686,10 @@ class Sphero(threading.Thread):
     """
     self.send(self.pack_cmd(REQ['CMD_ROLL'],[self.clamp(speed,0,255), (heading>>8), (heading & 0xff), state]), response)
 
+  def msg_roll(self, speed, heading, state, response):
+    return self.pack_msg(self.pack_cmd(REQ['CMD_ROLL'],[self.clamp(speed,0,255), (heading>>8), (heading & 0xff), state]), response)
+
+
   def boost(self, time, heading, response):
     """
     This commands Sphero to meet the provided heading, disable
@@ -751,6 +755,41 @@ class Sphero(threading.Thread):
     #send the msg
     with self._communication_lock:
       self.bt.send(msg)
+
+  def pack_msg(self, data, response):
+    """
+    Packets are sent from Client -> Sphero in the following byte format::
+
+      -------------------------------------------------------
+      | SOP1 | SOP2 | DID | CID | SEQ | DLEN | <data> | CHK |
+      -------------------------------------------------------
+
+    * SOP1 - start packet 1 - Always 0xff.
+    * SOP2 - start packet 2 - Set to 0xff when an acknowledgement is\
+      expected, 0xfe otherwise.
+    * DID - Device ID
+    * CID - Command ID
+    * SEQ - Sequence Number - This client field is echoed in the\
+      response for all synchronous commands (and ignored by Sphero\
+      when SOP2 = 0xfe)
+    * DLEN - Data
+    * Length - Number of bytes through the end of the packet.
+    * <data>
+    * CHK - Checksum - The modulo 256 sum of all the bytes from the\
+      DID through the end of the data payload, bit inverted (1's\
+      complement).
+    """
+    # compute the checksum
+    # modulo 256 sum of data bit inverted
+    checksum = ~ sum(data) % 256
+    # if expecting response back from the sphero
+    if response:
+      output = REQ['WITH_RESPONSE'] + data + [checksum]
+    else:
+      output = REQ['WITHOUT_RESPONSE'] + data + [checksum]
+    # pack the msg
+    msg = ''.join(struct.pack('B', x) for x in output)
+    return msg
 
   def run(self):
     # this is larger than any single packet

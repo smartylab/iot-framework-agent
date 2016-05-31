@@ -103,7 +103,7 @@ class MiniDrone(object):
         self.mac = mac
         self.callback = callback
         req_missing = self.req_check()
-        if req_missing:
+        if req_missing is not None:
             self.cb(0, req_missing)
             return
         self.seq_joy = 1 # 0x0040
