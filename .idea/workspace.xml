@@ -2,23 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53ef8832-f5c6-41ee-94ef-be9ae4742014" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/minidrone/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/sumo.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scanner.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/libs/py-minidrone/.gitignore" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/LICENSE" afterPath="$PROJECT_DIR$/libs/minidrone/LICENSE" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/README.md" afterPath="$PROJECT_DIR$/libs/minidrone/README.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/demo.py" afterPath="$PROJECT_DIR$/libs/minidrone/demo.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/drone.conf" afterPath="$PROJECT_DIR$/libs/minidrone/drone.conf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/drone.default.conf" afterPath="$PROJECT_DIR$/libs/minidrone/drone.default.conf" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/droneconfig.py" afterPath="$PROJECT_DIR$/libs/minidrone/droneconfig.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/dronedict.py" afterPath="$PROJECT_DIR$/libs/minidrone/dronedict.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/libs/py-minidrone/minidrone.py" afterPath="$PROJECT_DIR$/libs/minidrone/minidrone.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/iot-framework.iml" afterPath="$PROJECT_DIR$/.idea/iot-framework.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/python-ardrone/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/python-ardrone/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/python-ardrone/arnetwork.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/python-ardrone/arvideo.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/python-ardrone/demo.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/python-ardrone/libardrone.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/python-ardrone/test_libardrone.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/device.py" afterPath="$PROJECT_DIR$/device.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/sphero_driver.py" afterPath="$PROJECT_DIR$/libs/sphero_driver.py" />
     </list>
     <ignored path="iot-framework.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,6 +27,7 @@
     <SUITE FILE_PATH="coverage/iot-framework$demo.coverage" NAME="demo Coverage Results" MODIFIED="1464324495590" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/py-minidrone" />
     <SUITE FILE_PATH="coverage/iot-framework$gui.coverage" NAME="gui Coverage Results" MODIFIED="1464162871011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/iot-framework$demo__1_.coverage" NAME="demo (1) Coverage Results" MODIFIED="1464331512056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/minidrone" />
+    <SUITE FILE_PATH="coverage/iot-framework$libardrone.coverage" NAME="libardrone Coverage Results" MODIFIED="1464825979519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/libs/python-ardrone" />
     <SUITE FILE_PATH="coverage/iot-framework$scanner.coverage" NAME="scanner Coverage Results" MODIFIED="1464308795793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -47,11 +39,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="device.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="device.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/device.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="135" column="12" selection-start-line="135" selection-start-column="12" selection-end-line="135" selection-end-column="12" />
+            <state relative-caret-position="15">
+              <caret line="42" column="36" selection-start-line="42" selection-start-column="36" selection-end-line="42" selection-end-column="36" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -59,12 +51,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sumo.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/sumo.py">
+      <file leaf-file-name="libardrone.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/libs/python-ardrone/libardrone.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="12105">
-              <caret line="816" column="31" selection-start-line="816" selection-start-column="27" selection-end-line="816" selection-end-column="31" />
+            <state relative-caret-position="615">
+              <caret line="73" column="22" selection-start-line="73" selection-start-column="22" selection-end-line="73" selection-end-column="22" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="arvideo.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/python-ardrone/arvideo.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="214">
+              <caret line="145" column="8" selection-start-line="145" selection-start-column="5" selection-end-line="145" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="arnetwork.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/python-ardrone/arnetwork.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="214">
+              <caret line="56" column="52" selection-start-line="56" selection-start-column="48" selection-end-line="56" selection-end-column="52" />
+              <folding>
+                <element signature="e#1171#1184#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -100,6 +114,8 @@
         <option value="$PROJECT_DIR$/libs/minidrone/demo.py" />
         <option value="$PROJECT_DIR$/libs/minidrone/minidrone.py" />
         <option value="$PROJECT_DIR$/device.py" />
+        <option value="$PROJECT_DIR$/libs/python-ardrone/arnetwork.py" />
+        <option value="$PROJECT_DIR$/libs/python-ardrone/libardrone.py" />
       </list>
     </option>
   </component>
@@ -113,7 +129,7 @@
     <option name="x" value="65" />
     <option name="y" value="24" />
     <option name="width" value="1855" />
-    <option name="height" value="951" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -140,6 +156,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -187,13 +204,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="minidrone" />
+              <option name="myItemId" value="python-ardrone" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -205,32 +221,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/libs" />
       <recent name="$PROJECT_DIR$/libs/minidrone" />
       <recent name="$PROJECT_DIR$/libs/py-minidrone" />
-      <recent name="$PROJECT_DIR$/libs" />
       <recent name="H:\ws-pycharm\iot-framework\libs" />
       <recent name="H:\ws-pycharm\iot-framework" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.device">
-    <configuration default="false" name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="iot-framework" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.libardrone">
     <configuration default="false" name="device" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -299,6 +297,24 @@
       <module name="iot-framework" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/minidrone/demo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="libardrone" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs/python-ardrone" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="iot-framework" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/python-ardrone/libardrone.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -512,19 +528,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.gui" />
-      <item index="1" class="java.lang.String" itemvalue="Python.device" />
-      <item index="2" class="java.lang.String" itemvalue="Python.scanner" />
-      <item index="3" class="java.lang.String" itemvalue="Python.demo" />
-      <item index="4" class="java.lang.String" itemvalue="Python.demo (1)" />
+      <item index="0" class="java.lang.String" itemvalue="Python.device" />
+      <item index="1" class="java.lang.String" itemvalue="Python.scanner" />
+      <item index="2" class="java.lang.String" itemvalue="Python.demo" />
+      <item index="3" class="java.lang.String" itemvalue="Python.demo (1)" />
+      <item index="4" class="java.lang.String" itemvalue="Python.libardrone" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.device" />
-        <item index="1" class="java.lang.String" itemvalue="Python.demo (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Python.demo" />
-        <item index="3" class="java.lang.String" itemvalue="Python.scanner" />
-        <item index="4" class="java.lang.String" itemvalue="Python.gui" />
+        <item index="0" class="java.lang.String" itemvalue="Python.libardrone" />
+        <item index="1" class="java.lang.String" itemvalue="Python.device" />
+        <item index="2" class="java.lang.String" itemvalue="Python.demo (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.demo" />
+        <item index="4" class="java.lang.String" itemvalue="Python.scanner" />
       </list>
     </recent_temporary>
   </component>
@@ -545,27 +561,27 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1855" height="951" extended-state="6" />
+    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18794914" sideWeight="0.6526316" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19458264" sideWeight="0.6397163" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18794914" sideWeight="0.34736842" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.265625" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19458264" sideWeight="0.3602837" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32865497" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5099415" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26666668" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5099415" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -586,42 +602,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/libs/sumo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12105">
-          <caret line="816" column="31" selection-start-line="816" selection-start-column="27" selection-end-line="816" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/device.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/sumo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12105">
-          <caret line="816" column="31" selection-start-line="816" selection-start-column="27" selection-end-line="816" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/device.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libs/sphero_driver.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -868,19 +848,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/sumo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12105">
+        <state relative-caret-position="923">
           <caret line="816" column="31" selection-start-line="816" selection-start-column="27" selection-end-line="816" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/python-ardrone/demo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="e#1242#1255#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/python-ardrone/arvideo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="145" column="8" selection-start-line="145" selection-start-column="5" selection-end-line="145" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/python-ardrone/arnetwork.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="56" column="52" selection-start-line="56" selection-start-column="48" selection-end-line="56" selection-end-column="52" />
+          <folding>
+            <element signature="e#1171#1184#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/device.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="135" column="12" selection-start-line="135" selection-start-column="12" selection-end-line="135" selection-end-column="12" />
+        <state relative-caret-position="15">
+          <caret line="42" column="36" selection-start-line="42" selection-start-column="36" selection-end-line="42" selection-end-column="36" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/python-ardrone/libardrone.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="73" column="22" selection-start-line="73" selection-start-column="22" selection-end-line="73" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
