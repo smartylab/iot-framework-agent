@@ -131,6 +131,7 @@ class EHealthKitConnector(DeviceConnector):
             # TODO: Uncomment
 
             return {
+                'device_item_id': 1,
                 'type': meas_type,
                 'timestamp': int(time.time()*1000), # TODO: Change to time
                 'data': [
