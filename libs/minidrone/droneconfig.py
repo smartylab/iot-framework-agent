@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import ConfigParser
-import dronedict
+import configparser
+from . import dronedict
 
 CONFIG_FILE = 'drone.conf'
 SECTION = 'drone'
@@ -9,7 +9,7 @@ SECTION = 'drone'
 class C(object):
 
 	def __init__(self):
-		self.config = ConfigParser.ConfigParser()
+		self.config = configparser.ConfigParser()
 		self.config.readfp(open(CONFIG_FILE))
 
 	def flush(self):

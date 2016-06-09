@@ -1,6 +1,6 @@
 import socket
 
-from libs import sphero_driver
+from agent.libs import sphero_driver
 sphero = sphero_driver.Sphero()
 
 mac = "68:86:E7:04:A6:B4"   # Sphero

@@ -3,13 +3,13 @@
 import time
 import pexpect
 import threading
-from Queue import Queue
+from queue import Queue
 import binascii
 import os
 import re
 import struct
-import droneconfig
-import dronedict
+from . import droneconfig
+from . import dronedict
 
 # From https://standards.ieee.org/develop/regauth/oui/oui.txt
 PARROT_OUIS = ['A0:14:3D', '00:12:1C', '00:26:7E', '90:03:B7']
