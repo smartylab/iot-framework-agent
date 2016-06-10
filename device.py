@@ -9,9 +9,8 @@ import serial
 
 from libs import sphero_driver, sumo
 from libs.minidrone import minidrone
-from transmission import Transmitter
+from connection import Connector
 
-logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s")
 logger = logging.getLogger("IoT Device Agent")
 logger.setLevel(logging.INFO)
 
@@ -67,19 +66,20 @@ class EHealthKitConnector(DeviceConnector):
         "COM18",
     ]
 
-    def __init__(self, addr=None):
-        self.conn = None
-        self.connected = False
+    def __init__(self, addr=None, user_id=1):
+        self.serial_conn = None
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
+        self.connector = Connector(user_id, device_addr=addr)
 
     def connect(self):
         super().connect()
-        self.conn = serial.Serial(self.addr, 115200, timeout=10)
+        self.serial_conn = serial.Serial(self.addr, 115200, timeout=10)
 
     def disconnect(self):
         super().disconnect()
-        self.conn.close()
+        if self.serial_conn is not None:
+            self.serial_conn.close()
 
     def acquire_meas(self, meas_type, num=1, duration=0, interval=0.02, retry=1):
         """
@@ -91,10 +91,10 @@ class EHealthKitConnector(DeviceConnector):
         time_from = time.time()
         while True:
             # write to seiral for request measurement
-            self.conn.write(bytes(self._build_cmd(meas_type), 'UTF-8'))
+            self.serial_conn.write(bytes(self._build_cmd(meas_type), 'UTF-8'))
 
             # read measurements
-            serial_line = self.conn.readline()
+            serial_line = self.serial_conn.readline()
             if serial_line is None:
                 time.sleep(retry)
                 continue
@@ -131,9 +131,8 @@ class EHealthKitConnector(DeviceConnector):
             # TODO: Uncomment
 
             return {
-                'device_item_id': 1,
                 'type': meas_type,
-                'timestamp': int(time.time()*1000), # TODO: Change to time
+                'time': int(time.time()*1000), # TODO: Change to time
                 'data': [
                     {'sub_type': 'pulse', 'value': pulse, 'unit': 'bpm'},
                     {'sub_type': 'pulse', 'value': spo2, 'unit': '%'},
@@ -141,7 +140,7 @@ class EHealthKitConnector(DeviceConnector):
             }
 
     def test(self):
-        tr = Transmitter("http://203.253.23.37:8000/api/context")
+        tr = Connector()
 
         while True:
             context = self.acquire_meas(self.Measurement.PULSE)
@@ -151,7 +150,7 @@ class EHealthKitConnector(DeviceConnector):
             time.sleep(1)
 
 
-class SpheroController(BluetoothDeviceConnector):
+class SpheroBallAgent(BluetoothDeviceConnector):
 
     addr_list = [
         "68:86:E7:04:A6:B4",

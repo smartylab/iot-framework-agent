@@ -10,11 +10,12 @@ logger.setLevel(logging.INFO)
 if __name__ == '__main__':
 
     if len(sys.argv) != 3:
-        logger.error("Wrong usage. \nUsage: python manage.py <device_name> <device_addr>")
+        logger.error("Wrong usage. \nUsage: python manage.py <user_id> <device_name> <device_addr>")
         sys.exit(0)
 
-    device_name = sys.argv[1].upper()
-    device_addr = sys.argv[2]
+    user_id = sys.argv[1]
+    device_name = sys.argv[2].upper()
+    device_addr = sys.argv[3]
 
     if device_name == device.SPHEROBALL:
         print(device_name)
