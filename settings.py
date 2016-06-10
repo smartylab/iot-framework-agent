@@ -1,0 +1,5 @@
+
+
+SERVER_ADDR = "http://203.253.23.37:8000"
+USER_API = SERVER_ADDR+'/api/user'
+CONTEXT_API = SERVER_ADDR+'/api/context'

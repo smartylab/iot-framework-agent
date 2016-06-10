@@ -5,8 +5,10 @@ import socket
 import sys
 import time
 
+import requests
 import serial
 
+import settings
 from libs import sphero_driver, sumo
 from libs.minidrone import minidrone
 from connection import Connector
@@ -20,7 +22,7 @@ ROLLINGSPIDER = "ROLLINGSPIDER"
 EHEALTHSENSORKIT = "EHEALTHSENSORKIT"
 
 
-class DeviceConnector(object):
+class DeviceAgent(object):
 
     def connect(self):
         pass
@@ -28,8 +30,20 @@ class DeviceConnector(object):
     def disconnect(self):
         pass
 
+    def transmit(self, data):
+        if self.device_item_id is None:
+            logger.error("Connection is not established.")
+            return
+        try:
+            requests.post(settings.CONTEXT_API, data=json.dumps({
+                'device_item_id': self.device_item_id,
+                'context': data
+            }))
+        except Exception as e:
+            logger.error("Transmission error.")
 
-class SerialDeviceConncector(DeviceConnector):
+
+class SerialDeviceAgent(DeviceAgent):
 
     def list_ports(self):
         import serial.tools.list_ports
@@ -37,7 +51,7 @@ class SerialDeviceConncector(DeviceConnector):
             return list(serial.tools.list_ports.comports())
 
 
-class BluetoothDeviceConnector(DeviceConnector):
+class BluetoothDeviceConnector(DeviceAgent):
 
     def discover(self):
         pass
@@ -47,7 +61,7 @@ class BluetoothDeviceConnector(DeviceConnector):
         pass
 
 
-class EHealthKitConnector(DeviceConnector):
+class EHealthKitConnector(DeviceAgent):
 
     class Measurement:
         PULSE = "pulse"
@@ -66,7 +80,7 @@ class EHealthKitConnector(DeviceConnector):
         "COM18",
     ]
 
-    def __init__(self, addr=None, user_id=1):
+    def __init__(self, addr=None, user_id=1, connector=None):
         self.serial_conn = None
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
