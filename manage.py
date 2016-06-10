@@ -14,7 +14,7 @@ logger.setLevel(logging.INFO)
 if __name__ == '__main__':
 
     if len(sys.argv) < 2:
-        logger.error("Wrong usage. Need to enter a command.\nUsage: python manage.py <command> [<param>, ...]")
+        logger.error("Wrong usage. Need to enter a command.\nUsage: python manage.py <command> [params]")
         sys.exit(0)
 
     command = sys.argv[1]

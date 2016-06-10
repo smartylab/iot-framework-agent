@@ -80,7 +80,7 @@ class EHealthKitConnector(DeviceAgent):
         "COM18",
     ]
 
-    def __init__(self, addr=None, user_id=1, connector=None):
+    def __init__(self, user_id, device_item_id, addr):
         self.serial_conn = None
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
