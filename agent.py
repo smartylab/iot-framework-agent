@@ -12,7 +12,7 @@ from libs import sphero_driver, sumo
 from libs.minidrone import minidrone
 
 logger = logging.getLogger("IoT Device Agent")
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 
 SPHEROBALL = "SPHEROBALL"
@@ -33,6 +33,7 @@ class DeviceAgent(object):
             logger.error("Connection is not established.")
             return
         try:
+            logger.debug("Transmitting context...")
             if not is_series:
                 requests.post(settings.CONTEXT_API, data=json.dumps({
                     'device_item_id': self.device_item_id,
@@ -43,6 +44,7 @@ class DeviceAgent(object):
                     'device_item_id': self.device_item_id,
                     'series_context': data
                 }))
+            logger.debug("Transmission done.")
         except Exception as e:
             logger.error("Transmission error.")
 
@@ -198,6 +200,8 @@ class SpheroBallAgent(BluetoothDeviceConnector):
     sphero = sphero_driver.Sphero()
 
     def __init__(self, user_id, device_item_id, addr):
+        self.user_id = user_id
+        self.device_item_id = device_item_id
         self.tr = None
         self.conn = None
         self.connected = False
@@ -217,6 +221,8 @@ class SpheroBallAgent(BluetoothDeviceConnector):
             self.conn.close()
 
     def roll(self, speed=50, heading=0, state=0x01):
+        self.speed = speed*2/255
+        self.angle = heading
         if self.connected:
             self.conn.send(self.sphero.msg_roll(speed, heading, state, False))
 
@@ -225,7 +231,7 @@ class SpheroBallAgent(BluetoothDeviceConnector):
             "type": "SpheroBall status",
             "time": int(time.time()*1000),
             "data": [
-                {"sub_type": "speed", "value": self.speed*2/255, "unit": "m/s"},
+                {"sub_type": "speed", "value": self.speed, "unit": "m/s"},
                 {"sub_type": "angle", "value": self.angle, "unit": "degree"}
             ]
         }

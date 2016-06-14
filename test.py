@@ -61,7 +61,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger.info("Time Taken for Transmission: %s (s)" % (time_to-time_from))
 
 
-@unittest.skip("")
+# @unittest.skip("")
 class SpheroBallAgentTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -131,9 +131,11 @@ class SpheroBallAgentTestCase(unittest.TestCase):
 
         def transmit():
             while self.is_running:
+                self.logger.info("Transmitting spheroball context...")
                 a.transmit(a.acquire_context())
                 clock2.tick(4)
 
+        threading.Thread(target=transmit).start()
 
         while self.is_running:
             for event in pygame.event.get():
@@ -149,7 +151,7 @@ class SpheroBallAgentTestCase(unittest.TestCase):
         self.logger.info("Disconnected.")
 
 
-# @unittest.skip("")
+@unittest.skip("")
 class RollingSpiderAgentTestCase(unittest.TestCase):
 
     def setUp(self):
