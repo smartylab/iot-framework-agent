@@ -67,10 +67,11 @@ class SpheroBallTestCase(unittest.TestCase):
     def setUp(self):
         self.user_id = 'mkkim'
         self.device_item_id = 1
-        self.addr = "68:86:E7:04:A6:B4",
+        self.addr = "68:86:E7:04:A6:B4"
+        self.is_running = True
 
     def test(self):
-        a = SpheroBallAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+        # a = SpheroBallAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
 
         pygame.init()
         pygame.display.iconify()
@@ -89,7 +90,11 @@ class SpheroBallTestCase(unittest.TestCase):
         def handle():
             left = 0; right = 0; down = 0; up = 0
             maxcnt = 10; maxspeed = 30
-            while True:
+            while self.is_running:
+                if keys[pygame.K_q]:
+                    self.is_running = False
+                    break
+
                 if keys[pygame.K_LEFT]:
                     left = min(left+1, maxcnt)
                     logger.debug('LEFT: %s' % left)
@@ -127,7 +132,7 @@ class SpheroBallTestCase(unittest.TestCase):
 
         threading.Thread(target=handle).start()
 
-        while True:
+        while self.is_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit(0)
