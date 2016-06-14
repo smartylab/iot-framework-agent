@@ -2,7 +2,6 @@ import json
 import logging
 import os
 import socket
-import sys
 import time
 
 import requests
@@ -11,7 +10,6 @@ import serial
 import settings
 from libs import sphero_driver, sumo
 from libs.minidrone import minidrone
-from connection import Connector
 
 logger = logging.getLogger("IoT Device Agent")
 logger.setLevel(logging.INFO)
@@ -30,15 +28,21 @@ class DeviceAgent(object):
     def disconnect(self):
         pass
 
-    def transmit(self, data):
+    def transmit(self, data, is_series=False):
         if self.device_item_id is None:
             logger.error("Connection is not established.")
             return
         try:
-            requests.post(settings.CONTEXT_API, data=json.dumps({
-                'device_item_id': self.device_item_id,
-                'context': data
-            }))
+            if not is_series:
+                requests.post(settings.CONTEXT_API, data=json.dumps({
+                    'device_item_id': self.device_item_id,
+                    'context': data
+                }))
+            else:
+                requests.post(settings.SERIES_CONTEXT_API, data=json.dumps({
+                    'device_item_id': self.device_item_id,
+                    'series_context': data
+                }))
         except Exception as e:
             logger.error("Transmission error.")
 
@@ -61,47 +65,66 @@ class BluetoothDeviceConnector(DeviceAgent):
         pass
 
 
-class EHealthKitConnector(DeviceAgent):
+class EHealthKitAgent(DeviceAgent):
 
     class Measurement:
-        PULSE = "pulse"
-        SPO2 = "spo2"
-        BLOOD_PRESSURE = "blood pressure"
-        GLUCOSE = "glucose"
+        TEMPERATURE = "temperature"
+        PULSESPO2 = "pulsespo2"
         ECG = "ecg"
         EMG = "emg"
         GSR = "gsr"
         EEG = "eeg"
-        TEMPERATURE = "temperature"
-        WEIGHT = "weight"
-        FAT = "fat"
+        BLOOD_PRESSURE = "blood pressure"
+        GLUCOSE = "glucose"
+
+    subtypes = {
+        Measurement.PULSESPO2: ['pulse', 'spo2'],
+        Measurement.GSR: ['conductance', 'resistance', 'conductanceVol'],
+        Measurement.BLOOD_PRESSURE: ['systolic', 'diastolic']
+    }
+
+    units = {
+        Measurement.TEMPERATURE: 'degree Celsius',
+        Measurement.GSR: ['bpm', 'percentage'],
+        Measurement.PULSESPO2: ['micro second', 'ohm', 'voltage'],
+        Measurement.ECG: 'voltage',
+        Measurement.EMG: 'voltage',
+        Measurement.BLOOD_PRESSURE: ['mmHg', 'mmHg'],
+        Measurement.GLUCOSE: 'mg/dL',
+    }
 
     addr_list = [
         "COM18",
     ]
 
     def __init__(self, user_id, device_item_id, addr):
+        self.user_id = user_id
+        self.device_item_id = device_item_id
         self.serial_conn = None
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
-        self.connector = Connector(user_id, device_addr=addr)
 
     def connect(self):
         super().connect()
-        self.serial_conn = serial.Serial(self.addr, 115200, timeout=10)
+        for _ in range(10):
+            logger.info('Try to connect...')
+            self.serial_conn = serial.Serial(self.addr, 115200, timeout=0.1)
+            if self.serial_conn is not None:
+                break
 
     def disconnect(self):
         super().disconnect()
         if self.serial_conn is not None:
             self.serial_conn.close()
 
-    def acquire_meas(self, meas_type, num=1, duration=0, interval=0.02, retry=1):
+    def acquire_meas(self, meas_type, is_series=False, duration=10, interval=0.02, retry=1):
         """
         :param meas_types: a list of measurement types like ['pulse', 'ecg']
         :return: acquired measurements as a json array
         """
 
         context = None
+        series_list = []
         time_from = time.time()
         while True:
             # write to seiral for request measurement
@@ -109,20 +132,33 @@ class EHealthKitConnector(DeviceAgent):
 
             # read measurements
             serial_line = self.serial_conn.readline()
-            if serial_line is None:
+            if serial_line is None or serial_line == b'':
+                logger.debug('Retry writing...')
                 time.sleep(retry)
                 continue
             serial_line = serial_line.decode('UTF-8')
             values = serial_line.rstrip().split(',')
+            logger.debug(values)
 
-            # build a context
-            context = self._build_context(meas_type, values)
-            if context is None:
-                time.sleep(retry)
-                continue
-
-            # check the elapsed time
-            if time.time()-time_from >= duration:
+            if is_series:
+                # accumulate series
+                if len(series_list) == 0:
+                    series_list = [[v] for v in values]
+                else:
+                    for s, v in zip(series_list, values):
+                        s.append(v)
+                # check the elapsed time
+                time_to = time.time()
+                if time_to-time_from >= duration:
+                    context = self._build_context(meas_type, series_list, int(time_from*1000), time_to=int(time_to*1000))
+                    break
+                time.sleep(interval)
+            else:
+                # build a context
+                context = self._build_context(meas_type, values, int(time_from*1000))
+                if context is None:
+                    time.sleep(retry)
+                    continue
                 break
 
         return context
@@ -130,48 +166,38 @@ class EHealthKitConnector(DeviceAgent):
     def _build_cmd(self, meas_type):
         return 'MEAS:' + meas_type + '\n'
 
-    def _build_context(self, meas_type, values):
-        if meas_type == self.Measurement.PULSE:
-            if len(values) != 2:
-                logger.error("Invalid values for the measurement type, %s" % meas_type)
-                return None
+    def _build_context(self, meas_type, values, time_from, time_to=None):
+        if len(values) == 0:
+            logger.error("Invalid values for the measurement type, %s" % meas_type)
+            return None
 
-            pulse = float(values[0])
-            spo2 = float(values[1])
-
-            # if pulse <= 0. or spo2 <= 0.:
-            #     logger.error("One or both of the values are zero: %s" % ([pulse, spo2]))
-            #     return None
-            # TODO: Uncomment
-
-            return {
+        if meas_type in self.subtypes:
+            context = {
                 'type': meas_type,
-                'time': int(time.time()*1000), # TODO: Change to time
                 'data': [
-                    {'sub_type': 'pulse', 'value': pulse, 'unit': 'bpm'},
-                    {'sub_type': 'pulse', 'value': spo2, 'unit': '%'},
+                    {'sub_type': subtype, 'value': value, 'unit': unit}  for subtype, value, unit in zip(self.subtypes[meas_type], values, self.units[meas_type])
                 ]
             }
+        else:
+            context = {
+                'type': meas_type,
+                'data': {'value': values[0], 'unit': self.units[meas_type]}
+            }
 
-    def test(self):
-        tr = Connector()
+        if time_to is None:
+            context['time'] = time_from
+        else:
+            context['time_from'] = time_from
+            context['time_to'] = time_to
 
-        while True:
-            context = self.acquire_meas(self.Measurement.PULSE)
-
-            print(context)
-            tr.transmit(context)
-            time.sleep(1)
+        return context
 
 
 class SpheroBallAgent(BluetoothDeviceConnector):
 
-    addr_list = [
-        "68:86:E7:04:A6:B4",
-    ]
     sphero = sphero_driver.Sphero()
 
-    def __init__(self, addr):
+    def __init__(self, user_id, device_item_id, addr):
         self.tr = None
         self.conn = None
         self.connected = False
@@ -190,17 +216,6 @@ class SpheroBallAgent(BluetoothDeviceConnector):
 
     def roll(self, speed=50, heading=0, state=0x01):
         self.conn.send(self.sphero.msg_roll(speed, heading, state, False))
-
-    def test(self):
-        self.connect()
-        print("Connected.")
-        while not self.connected:
-            time.sleep(1)
-        for _ in range(10):
-            self.roll()
-            time.sleep(1)
-        self.disconnect()
-        print("Disconnected.")
 
 
 class RollingSpiderController(BluetoothDeviceConnector):
@@ -276,14 +291,14 @@ class RollingSpiderController(BluetoothDeviceConnector):
 
     def test(self):
         self.connect()
-        print("Connected.")
+        logger.info("Connected.")
         time.sleep(1)
         self.takeoff()
         time.sleep(3)
         self.land()
         time.sleep(1)
         self.disconnect()
-        print("Disconnected.")
+        logger.info("Disconnected.")
 
 
 class JumpingSumoController(BluetoothDeviceConnector):
@@ -319,11 +334,3 @@ class JumpingSumoController(BluetoothDeviceConnector):
 
     def test(self):
         pass
-
-
-if __name__ == '__main__':
-    # SpheroController().test()
-    # RollingSpiderController().test()
-    EHealthKitConnector().test()
-    # print(SerialDeviceConncector().list_ports())
-    sys.exit(1)
