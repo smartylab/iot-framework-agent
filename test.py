@@ -11,11 +11,9 @@ import math
 
 import numpy as np
 
-from agent import EHealthKitAgent, SpheroBallAgent
+from agent import EHealthKitAgent, SpheroBallAgent, RollingSpiderAgent
 
 logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s")
-logger = logging.getLogger("IoT Device Agent")
-logger.setLevel(logging.INFO)
 
 
 @unittest.skip("")
@@ -25,43 +23,45 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.user_id = 'mkkim'
         self.device_item_id = 1
         self.addr = 'COM18'
+        self.logger = logging.getLogger("EHealthKitAgent Testing")
+        self.logger.setLevel(logging.INFO)
 
     def test_ecg(self):
         time_from = time.time()
         a = EHealthKitAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
         time_to = time.time()
-        logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
+        self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
         time_from = time.time()
         context = a.acquire_meas(EHealthKitAgent.Measurement.ECG)
         time_to = time.time()
-        logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
-        logger.info("Acquired Context: %s" % (context))
+        self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
+        self.logger.info("Acquired Context: %s" % (context))
 
         time_from = time.time()
         a.transmit(context)
         time_to = time.time()
-        logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
+        self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
 
     @unittest.skip("")
     def test_ecg_series(self):
         time_from = time.time()
         a = EHealthKitAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
         time_to = time.time()
-        logger.info("Time Taken for Connection: %s (s)" % (time_to-time_from))
+        self.logger.info("Time Taken for Connection: %s (s)" % (time_to-time_from))
 
         time_from = time.time()
         context = a.acquire_meas(EHealthKitAgent.Measurement.ECG, is_series=True, duration=10)
         time_to = time.time()
-        logger.info("Time Taken for Acquisition: %s (s)" % (time_to-time_from))
+        self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to-time_from))
 
         time_from = time.time()
         a.transmit(context, is_series=True)
         time_to = time.time()
-        logger.info("Time Taken for Transmission: %s (s)" % (time_to-time_from))
+        self.logger.info("Time Taken for Transmission: %s (s)" % (time_to-time_from))
 
 
-# @unittest.skip("")
+@unittest.skip("")
 class SpheroBallTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -69,6 +69,8 @@ class SpheroBallTestCase(unittest.TestCase):
         self.device_item_id = 1
         self.addr = "68:86:E7:04:A6:B4"
         self.is_running = True
+        self.logger = logging.getLogger("SpheroBallAgent Testing")
+        self.logger.setLevel(logging.INFO)
 
     def test(self):
         # a = SpheroBallAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
@@ -97,25 +99,25 @@ class SpheroBallTestCase(unittest.TestCase):
 
                 if keys[pygame.K_LEFT]:
                     left = min(left+1, maxcnt)
-                    logger.debug('LEFT: %s' % left)
+                    self.logger.debug('LEFT: %s' % left)
                 else:
                     left = max(left-1, 0)
 
                 if keys[pygame.K_RIGHT]:
                     right = min(right+1, maxcnt)
-                    logger.debug('RIGHT: %s' % right)
+                    self.logger.debug('RIGHT: %s' % right)
                 else:
                     right = max(right-1, 0)
 
                 if keys[pygame.K_UP]:
                     up = min(up+1, maxcnt)
-                    logger.debug('UP: %s' % up)
+                    self.logger.debug('UP: %s' % up)
                 else:
                     up = max(up-1, 0)
 
                 if keys[pygame.K_DOWN]:
                     down = min(down+1, maxcnt)
-                    logger.debug('DOWN: %s' % down)
+                    self.logger.debug('DOWN: %s' % down)
                 else:
                     down = max(down-1, 0)
 
@@ -126,8 +128,72 @@ class SpheroBallTestCase(unittest.TestCase):
                 if right < left:
                     angle = -angle
 
-                logger.info("SPEED: %s, ANGLE: %s" % (speed, angle))
+                self.logger.info("SPEED: %s, ANGLE: %s" % (speed, angle))
 
+                clock.tick(4)
+
+        threading.Thread(target=handle).start()
+
+        while self.is_running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit(0)
+                if event.type == pygame.KEYDOWN:
+                    keys = pygame.key.get_pressed()
+                if event.type == pygame.KEYUP:
+                    keys = pygame.key.get_pressed()
+
+        pygame.quit()
+        quit()
+
+
+# @unittest.skip("")
+class RollingSpiderTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.user_id = 'mkkim'
+        self.device_item_id = 1
+        self.addr = "E0:14:9F:34:3D:4F"
+        self.is_running = True
+
+    def test(self):
+        a = RollingSpiderAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+
+        pygame.init()
+        pygame.display.iconify()
+
+        keys = pygame.key.get_pressed()
+        clock = pygame.time.Clock()
+
+        def handle():
+            while self.is_running:
+                if keys[pygame.K_KP_ENTER]:
+                    a.takeoff()
+                elif keys[pygame.K_SPACE]:
+                    a.land()
+                    self.is_running = False
+                    break
+                elif keys[pygame.K_q]:
+                    a.emergency()
+                    self.is_running = False
+                    break
+
+                if keys[pygame.K_LEFT]:
+                    a.turn_left()
+                elif keys[pygame.K_RIGHT]:
+                    a.turn_right()
+
+                if keys[pygame.K_UP]:
+                    a.ascend()
+                elif keys[pygame.K_DOWN]:
+                    a.descend()
+
+                if keys[pygame.K_PERIOD]:
+                    a.incr_speed()
+                elif keys[pygame.K_COMMA]:
+                    a.decr_speed()
+
+                self.logger.info(a.get_speed())
                 clock.tick(4)
 
         threading.Thread(target=handle).start()

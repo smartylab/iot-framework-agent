@@ -218,13 +218,9 @@ class SpheroBallAgent(BluetoothDeviceConnector):
         self.conn.send(self.sphero.msg_roll(speed, heading, state, False))
 
 
-class RollingSpiderController(BluetoothDeviceConnector):
+class RollingSpiderAgent(BluetoothDeviceConnector):
 
-    addr_list = [
-        "E0:14:9F:34:3D:4F",
-    ]
-
-    def __init__(self, addr=None):
+    def __init__(self, user_id, device_item_id, addr):
         self.drone = None
         self.connected = False
         self.addr = addr if addr is not None else self.addr_list[0]
