@@ -33,7 +33,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
         time_from = time.time()
-        context = a.acquire_meas(EHealthKitAgent.Measurement.ECG)
+        context = a.acquire_context(EHealthKitAgent.Measurement.ECG)
         time_to = time.time()
         self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
         self.logger.info("Acquired Context: %s" % (context))
@@ -51,7 +51,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to-time_from))
 
         time_from = time.time()
-        context = a.acquire_meas(EHealthKitAgent.Measurement.ECG, is_series=True, duration=10)
+        context = a.acquire_context(EHealthKitAgent.Measurement.ECG, is_series=True, duration=10)
         time_to = time.time()
         self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to-time_from))
 
@@ -61,7 +61,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger.info("Time Taken for Transmission: %s (s)" % (time_to-time_from))
 
 
-@unittest.skip("")
+# @unittest.skip("")
 class SpheroBallTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -73,66 +73,66 @@ class SpheroBallTestCase(unittest.TestCase):
         self.logger.setLevel(logging.INFO)
 
     def test(self):
-        # a = SpheroBallAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+        a = SpheroBallAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
 
         pygame.init()
-        pygame.display.iconify()
+        canvas = pygame.display.set_mode((400,400),0,32)
+        canvas.fill((128,128,128))
+        pygame.display.update()
 
         keys = pygame.key.get_pressed()
         clock = pygame.time.Clock()
 
-        # while not a.connected:
-        #     time.sleep(1)
-        # for _ in range(10):
-        #     a.roll()
-        #     time.sleep(1)
-        # a.disconnect()
-        # logger.info("Disconnected.")
+        while not a.connected:
+            time.sleep(1)
 
         def handle():
-            left = 0; right = 0; down = 0; up = 0
-            maxcnt = 10; maxspeed = 30
+            left = 0; right = 0; down = 0; up = 0; angle = 0
+            maxcnt = 128; maxspeed = 128; maxangle = 359
             while self.is_running:
                 if keys[pygame.K_q]:
                     self.is_running = False
-                    break
+                    a.disconnect()
+                    self.logger.info("Disconnected.")
 
                 if keys[pygame.K_LEFT]:
                     left = min(left+1, maxcnt)
                     self.logger.debug('LEFT: %s' % left)
                 else:
-                    left = max(left-1, 0)
+                    left = max(int(left/4), 0)
 
                 if keys[pygame.K_RIGHT]:
                     right = min(right+1, maxcnt)
                     self.logger.debug('RIGHT: %s' % right)
                 else:
-                    right = max(right-1, 0)
+                    right = max(int(right/4), 0)
 
                 if keys[pygame.K_UP]:
                     up = min(up+1, maxcnt)
                     self.logger.debug('UP: %s' % up)
                 else:
-                    up = max(up-1, 0)
+                    up = max(int(up/4), 0)
 
-                if keys[pygame.K_DOWN]:
-                    down = min(down+1, maxcnt)
-                    self.logger.debug('DOWN: %s' % down)
-                else:
-                    down = max(down-1, 0)
-
-                speed = maxspeed*np.tanh(abs(up-down)/10)
-                if up < down:
-                    speed = -speed
-                angle = 360*np.tanh(abs(right-left)/10)
-                if right < left:
-                    angle = -angle
+                speed = maxspeed*np.tanh(up/16)
+                anglechange = (maxangle/10)*np.tanh((right-left)/16)
+                angle = angle+anglechange
+                if angle < 0:
+                    angle = maxangle+angle
+                if angle > maxangle:
+                    angle = angle-maxangle
 
                 self.logger.info("SPEED: %s, ANGLE: %s" % (speed, angle))
+                a.roll(speed=int(speed), heading=int(angle))
 
-                clock.tick(4)
+                clock.tick(16)
 
         threading.Thread(target=handle).start()
+
+        def transmit():
+            while self.is_running:
+                a.transmit(a.acquire_context())
+                clock.tick(4)
+
 
         while self.is_running:
             for event in pygame.event.get():
@@ -143,11 +143,12 @@ class SpheroBallTestCase(unittest.TestCase):
                 if event.type == pygame.KEYUP:
                     keys = pygame.key.get_pressed()
 
+        a.disconnect()
         pygame.quit()
-        quit()
+        self.logger.info("Disconnected.")
 
 
-# @unittest.skip("")
+@unittest.skip("")
 class RollingSpiderTestCase(unittest.TestCase):
 
     def setUp(self):

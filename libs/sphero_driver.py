@@ -788,7 +788,7 @@ class Sphero(threading.Thread):
     else:
       output = REQ['WITHOUT_RESPONSE'] + data + [checksum]
     # pack the msg
-    msg = ''.join(struct.pack('B', x) for x in output)
+    msg = b''.join(struct.pack('B', x) for x in output)
     return msg
 
   def run(self):

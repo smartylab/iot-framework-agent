@@ -117,7 +117,7 @@ class EHealthKitAgent(DeviceAgent):
         if self.serial_conn is not None:
             self.serial_conn.close()
 
-    def acquire_meas(self, meas_type, is_series=False, duration=10, interval=0.02, retry=1):
+    def acquire_context(self, meas_type, is_series=False, duration=10, interval=0.02, retry=1):
         """
         :param meas_types: a list of measurement types like ['pulse', 'ecg']
         :return: acquired measurements as a json array
@@ -203,6 +203,8 @@ class SpheroBallAgent(BluetoothDeviceConnector):
         self.connected = False
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
+        self.speed = 0
+        self.angle = 0
 
     def connect(self):
         self.conn = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
@@ -215,7 +217,18 @@ class SpheroBallAgent(BluetoothDeviceConnector):
             self.conn.close()
 
     def roll(self, speed=50, heading=0, state=0x01):
-        self.conn.send(self.sphero.msg_roll(speed, heading, state, False))
+        if self.connected:
+            self.conn.send(self.sphero.msg_roll(speed, heading, state, False))
+
+    def acquire_context(self):
+        return {
+            "type": "SpheroBall status",
+            "time": int(time.time()*1000),
+            "data": [
+                {"sub_type": "speed", "value": self.speed*2/255, "unit": "m/s"},
+                {"sub_type": "angle", "value": self.angle, "unit": "degree"}
+            ]
+        }
 
 
 class RollingSpiderAgent(BluetoothDeviceConnector):
