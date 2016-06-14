@@ -73,7 +73,10 @@ class SpheroBallAgentTestCase(unittest.TestCase):
         self.logger.setLevel(logging.INFO)
 
     def test(self):
+        time_from = time.time()
         a = SpheroBallAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+        time_to = time.time()
+        self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
         pygame.init()
         canvas = pygame.display.set_mode((400,400),0,32)
@@ -122,7 +125,7 @@ class SpheroBallAgentTestCase(unittest.TestCase):
                 if angle > maxangle:
                     angle = angle-maxangle
 
-                self.logger.info("SPEED: %s, ANGLE: %s" % (speed, angle))
+                self.logger.debug("SPEED: %s, ANGLE: %s" % (speed, angle))
                 a.roll(speed=int(speed), heading=int(angle))
 
                 clock1.tick(16)
@@ -131,8 +134,10 @@ class SpheroBallAgentTestCase(unittest.TestCase):
 
         def transmit():
             while self.is_running:
-                self.logger.info("Transmitting spheroball context...")
+                time_from = time.time()
                 a.transmit(a.acquire_context())
+                time_to = time.time()
+                self.logger.info("Time Taken for Acquisition and Transmission: %s (s)" % (time_to - time_from))
                 clock2.tick(4)
 
         threading.Thread(target=transmit).start()

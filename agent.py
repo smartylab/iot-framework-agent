@@ -12,7 +12,7 @@ from libs import sphero_driver, sumo
 from libs.minidrone import minidrone
 
 logger = logging.getLogger("IoT Device Agent")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 SPHEROBALL = "SPHEROBALL"
