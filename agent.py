@@ -250,49 +250,64 @@ class RollingSpiderAgent(BluetoothDeviceConnector):
             self.drone.disconnect()
 
     def ascend(self):
-        self.drone.ascend()
+        if self.drone is not None:
+            self.drone.ascend()
 
     def descend(self):
-        self.drone.descend()
+        if self.drone is not None:
+            self.drone.descend()
 
     def turn_left(self):
-        self.drone.turn_left()
+        if self.drone is not None:
+            self.drone.turn_left()
 
     def turn_right(self):
-        self.drone.turn_right()
+        if self.drone is not None:
+            self.drone.turn_right()
 
     def move_fw(self):
-        self.drone.move_fw()
+        if self.drone is not None:
+            self.drone.move_fw()
 
     def move_bw(self):
-        self.drone.move_bw()
+        if self.drone is not None:
+            self.drone.move_bw()
 
     def move_right(self):
-        self.drone.move_right()
+        if self.drone is not None:
+            self.drone.move_right()
 
     def move_left(self):
-        self.drone.move_left()
+        if self.drone is not None:
+            self.drone.move_left()
 
     def still(self):
-        self.drone.still()
+        if self.drone is not None:
+            self.drone.still()
 
     def incr_speed(self):
-        self.drone.incr_speed()
+        if self.drone is not None:
+            self.drone.incr_speed()
 
     def decr_speed(self):
-        self.drone.decr_speed()
+        if self.drone is not None:
+            self.drone.decr_speed()
 
     def takeoff(self):
-        self.drone.takeoff()
+        if self.drone is not None:
+            self.drone.takeoff()
 
     def land(self):
-        self.drone.land()
+        if self.drone is not None:
+            self.drone.land()
 
     def emergency(self):
-        self.drone.emergency()
+        if self.drone is not None:
+            self.drone.emergency()
 
     def get_speed(self):
-        return self.drone.speed
+        if self.drone is not None:
+            return self.drone.speed
 
     @staticmethod
     def callback(t, data):

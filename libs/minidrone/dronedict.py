@@ -44,10 +44,12 @@ C_CONN_OK = 'Connection estabilished. Have fun!'
 UNITS = {S_MAX_VERT:'m/s', S_MAX_ROT:'°/s', S_MAX_ALT:'m', S_MAX_TILT:'°'}
 
 def process_battery(drone, value):
+    value = value.decode('UTF-8')
     drone.battery = str(int(value.split(' ')[-2], 16))
     drone.cb(1, drone.battery)
 
 def process_notification(drone, value):
+    value = value.decode('UTF-8')
     ## Process drone information
     if re.search(P_NAME, value):
         drone.settings[S_NAME] = get_init_info(value)
@@ -75,7 +77,7 @@ def process_notification(drone, value):
 
 
 def get_init_info(pattern):
-    return binascii.unhexlify(''.join(pattern.split(' ')[8:][:-2]))
+    return binascii.unhexlify(''.join(pattern.split(' ')[8:][:-2])).decode('UTF-8')
 
 def get_current_setting(pattern):
     return hex2vals(''.join(pattern.split(' ')[9:12]))

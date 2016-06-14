@@ -53,7 +53,7 @@ class ReaderThread(StoppableThread):
             if not self.stop_event.is_set():
                 index = self.reader.expect_list(patterns, timeout=30)
                 if index == 0:
-                    self.drone.send(self.drone.send_ack, self.reader.after.split(' ')[3])
+                    self.drone.send(self.drone.send_ack, self.reader.after.decode('UTF-8').split(' ')[3])
                     dronedict.process_notification(self.drone, self.reader.after)
                 elif index == 1:
                     dronedict.process_battery(self.drone, self.reader.after)
@@ -224,7 +224,7 @@ class MiniDrone(object):
     def setup_time(self):
         times = time_bin()
         for i in range(1, 3):
-            self.send_ref('0004' + ('%02x' % i) + '00' + times[i-1] + '00')
+            self.send_ref('0004' + ('%02x' % i) + '00' + times[i-1].decode('UTF-8') + '00')
 
     def wheels(self, wheels):
         self.send_ref('02010200' + ('01' if wheels else '00'))
@@ -300,7 +300,7 @@ def sp2b(speed): # 0-100
     return '%02x' % (speed & 0b11111111)
 
 def time_bin():
-    return [binascii.hexlify(t) for t in time.strftime("%Y-%m-%d|T%H%M%S%z", time.localtime()).split('|')]
+    return [binascii.hexlify(bytes(t, 'UTF-8')) for t in time.strftime("%Y-%m-%d|T%H%M%S%z", time.localtime()).split('|')]
 
 def merge_moves(hor_lr, hor_fb, rot, vert):
     t = '01' if (hor_lr != 0 or hor_fb != 0) else '00'

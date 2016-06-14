@@ -23,7 +23,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.user_id = 'mkkim'
         self.device_item_id = 1
         self.addr = 'COM18'
-        self.logger = logging.getLogger("EHealthKitAgent Testing")
+        self.logger = logging.getLogger("EHealthKitAgentTestCase")
         self.logger.setLevel(logging.INFO)
 
     def test_ecg(self):
@@ -61,15 +61,15 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger.info("Time Taken for Transmission: %s (s)" % (time_to-time_from))
 
 
-# @unittest.skip("")
-class SpheroBallTestCase(unittest.TestCase):
+@unittest.skip("")
+class SpheroBallAgentTestCase(unittest.TestCase):
 
     def setUp(self):
         self.user_id = 'mkkim'
         self.device_item_id = 1
         self.addr = "68:86:E7:04:A6:B4"
         self.is_running = True
-        self.logger = logging.getLogger("SpheroBallAgent Testing")
+        self.logger = logging.getLogger("SpheroBallAgentTestCase")
         self.logger.setLevel(logging.INFO)
 
     def test(self):
@@ -81,7 +81,8 @@ class SpheroBallTestCase(unittest.TestCase):
         pygame.display.update()
 
         keys = pygame.key.get_pressed()
-        clock = pygame.time.Clock()
+        clock1 = pygame.time.Clock()
+        clock2 = pygame.time.Clock()
 
         while not a.connected:
             time.sleep(1)
@@ -124,14 +125,14 @@ class SpheroBallTestCase(unittest.TestCase):
                 self.logger.info("SPEED: %s, ANGLE: %s" % (speed, angle))
                 a.roll(speed=int(speed), heading=int(angle))
 
-                clock.tick(16)
+                clock1.tick(16)
 
         threading.Thread(target=handle).start()
 
         def transmit():
             while self.is_running:
                 a.transmit(a.acquire_context())
-                clock.tick(4)
+                clock2.tick(4)
 
 
         while self.is_running:
@@ -148,36 +149,32 @@ class SpheroBallTestCase(unittest.TestCase):
         self.logger.info("Disconnected.")
 
 
-@unittest.skip("")
-class RollingSpiderTestCase(unittest.TestCase):
+# @unittest.skip("")
+class RollingSpiderAgentTestCase(unittest.TestCase):
 
     def setUp(self):
         self.user_id = 'mkkim'
         self.device_item_id = 1
         self.addr = "E0:14:9F:34:3D:4F"
         self.is_running = True
+        self.logger = logging.getLogger("RollingSpiderAgentTestCase")
+        self.logger.setLevel(logging.INFO)
 
     def test(self):
         a = RollingSpiderAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
 
         pygame.init()
-        pygame.display.iconify()
+        canvas = pygame.display.set_mode((400,400),0,32)
+        canvas.fill((128,128,128))
+        pygame.display.update()
+
+        clock1 = pygame.time.Clock()
+        clock2 = pygame.time.Clock()
 
         keys = pygame.key.get_pressed()
-        clock = pygame.time.Clock()
 
         def handle():
             while self.is_running:
-                if keys[pygame.K_KP_ENTER]:
-                    a.takeoff()
-                elif keys[pygame.K_SPACE]:
-                    a.land()
-                    self.is_running = False
-                    break
-                elif keys[pygame.K_q]:
-                    a.emergency()
-                    self.is_running = False
-                    break
 
                 if keys[pygame.K_LEFT]:
                     a.turn_left()
@@ -185,31 +182,49 @@ class RollingSpiderTestCase(unittest.TestCase):
                     a.turn_right()
 
                 if keys[pygame.K_UP]:
-                    a.ascend()
+                    a.move_fw()
                 elif keys[pygame.K_DOWN]:
+                    a.move_bw()
+
+                if keys[pygame.K_z]:
                     a.descend()
+                elif keys[pygame.K_x]:
+                    a.ascend()
 
                 if keys[pygame.K_PERIOD]:
                     a.incr_speed()
                 elif keys[pygame.K_COMMA]:
                     a.decr_speed()
 
-                self.logger.info(a.get_speed())
-                clock.tick(4)
+                clock1.tick(16)
 
         threading.Thread(target=handle).start()
+
+        # TODO:Transmit
 
         while self.is_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.is_running = False
                     sys.exit(0)
                 if event.type == pygame.KEYDOWN:
                     keys = pygame.key.get_pressed()
+
+                    if keys[pygame.K_RETURN]:
+                        a.takeoff()
+                    elif keys[pygame.K_SPACE]:
+                        a.land()
+                    elif keys[pygame.K_q]:
+                        a.emergency()
+                        self.is_running = False
+                        break
+
                 if event.type == pygame.KEYUP:
                     keys = pygame.key.get_pressed()
+            clock1.tick(64)
 
+        a.disconnect()
         pygame.quit()
-        quit()
 
 
 if __name__ == '__main__':
