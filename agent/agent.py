@@ -3,9 +3,14 @@ import logging
 import os
 import socket
 import time
+import urllib
+import webbrowser
 
 import requests
 import serial
+
+import netifaces as ni
+import oauth2 as oauth
 
 import settings
 from libs import sphero_driver, sumo
@@ -57,7 +62,7 @@ class SerialDeviceAgent(DeviceAgent):
             return list(serial.tools.list_ports.comports())
 
 
-class BluetoothDeviceConnector(DeviceAgent):
+class BluetoothDeviceAgent(DeviceAgent):
 
     def discover(self):
         pass
@@ -65,6 +70,10 @@ class BluetoothDeviceConnector(DeviceAgent):
     @staticmethod
     def discover_all():
         pass
+
+
+class CloudDeviceAgent(DeviceAgent):
+    pass
 
 
 class EHealthKitAgent(DeviceAgent):
@@ -195,7 +204,7 @@ class EHealthKitAgent(DeviceAgent):
         return context
 
 
-class SpheroBallAgent(BluetoothDeviceConnector):
+class SpheroBallAgent(BluetoothDeviceAgent):
 
     sphero = sphero_driver.Sphero()
 
@@ -237,7 +246,9 @@ class SpheroBallAgent(BluetoothDeviceConnector):
         }
 
 
-class RollingSpiderAgent(BluetoothDeviceConnector):
+class RollingSpiderAgent(BluetoothDeviceAgent):
+
+    statuslist = ["Disconnected", "Init", "Connected", "Error"]
 
     def __init__(self, user_id, device_item_id, addr):
         self.drone = None
@@ -319,19 +330,18 @@ class RollingSpiderAgent(BluetoothDeviceConnector):
     def callback(t, data):
         pass
 
-    def test(self):
-        self.connect()
-        logger.info("Connected.")
-        time.sleep(1)
-        self.takeoff()
-        time.sleep(3)
-        self.land()
-        time.sleep(1)
-        self.disconnect()
-        logger.info("Disconnected.")
+    def acquire_context(self):
+        return {
+            "type": "RollingSpider status",
+            "time": int(time.time()*1000),
+            "data": [
+                {"sub_type": "speed", "value": self.drone.speed, "unit": "m/s"},
+                {"sub_type": "status", "value": self.statuslist[self.drone.status]}
+            ]
+        }
 
 
-class JumpingSumoController(BluetoothDeviceConnector):
+class JumpingSumoAgent(BluetoothDeviceAgent):
 
     addr_list = [
         "E0:14:9F:34:3D:4F",
