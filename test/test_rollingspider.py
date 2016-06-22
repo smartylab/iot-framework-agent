@@ -19,13 +19,17 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
     def setUp(self):
         self.user_id = 'mkkim'
         self.device_item_id = 1
+        # self.addr = "A0:14:3D:4F:AF:0A"
         self.addr = "E0:14:9F:34:3D:4F"
         self.is_running = True
         self.logger = logging.getLogger("RollingSpiderAgentTestCase")
         self.logger.setLevel(logging.INFO)
 
     def test(self):
+        time_from = time.time()
         a = RollingSpiderAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+        time_to = time.time()
+        self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
         pygame.init()
         canvas = pygame.display.set_mode((400,400),0,32)
@@ -41,23 +45,31 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
             while self.is_running:
 
                 if keys[pygame.K_LEFT]:
+                    self.logger.info("Left")
                     a.turn_left()
                 elif keys[pygame.K_RIGHT]:
+                    self.logger.info("Right")
                     a.turn_right()
 
                 if keys[pygame.K_UP]:
+                    self.logger.info("Up")
                     a.move_fw()
                 elif keys[pygame.K_DOWN]:
+                    self.logger.info("Down")
                     a.move_bw()
 
                 if keys[pygame.K_z]:
+                    self.logger.info("Descend")
                     a.descend()
                 elif keys[pygame.K_x]:
+                    self.logger.info("Ascend")
                     a.ascend()
 
                 if keys[pygame.K_PERIOD]:
+                    self.logger.info("Inc. Speed")
                     a.incr_speed()
                 elif keys[pygame.K_COMMA]:
+                    self.logger.info("Dec. Speed")
                     a.decr_speed()
 
                 clock1.tick(16)
@@ -67,7 +79,8 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
         def transmit():
             while self.is_running:
                 time_from = time.time()
-                a.transmit(a.acquire_context())
+                self.logger.info("Acquired Context: %s" % a.acquire_context())
+                # a.transmit(a.acquire_context())
                 time_to = time.time()
                 self.logger.info("Time Taken for Acquisition and Transmission: %s (s)" % (time_to - time_from))
                 clock2.tick(4)

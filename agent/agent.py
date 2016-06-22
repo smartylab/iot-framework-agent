@@ -253,6 +253,8 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
     def __init__(self, user_id, device_item_id, addr):
         self.drone = None
         self.connected = False
+        self.user_id = user_id
+        self.device_item_id = device_item_id
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
 
