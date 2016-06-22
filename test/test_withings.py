@@ -15,7 +15,7 @@ class WithingsAgentTestCase(unittest.TestCase):
     def setUp(self):
         self.user_id = 'mkkim'
         self.device_item_id = 1
-        self.server_addr = "http://203.253.23.20"
+        self.server_addr = "http://203.253.23.40"
         self.logger = logging.getLogger("WithingsAgentTestCase")
 
     def test(self):
