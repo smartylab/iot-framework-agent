@@ -240,7 +240,7 @@ class WithingsAgent(CloudDeviceAgent):
             with open(self.CACHE_PATH, "r") as f:
                 cache_time = int(f.readline())
 
-                if time.time()-cache_time > 20*60:  # more than 20 minutes
+                if time.time()-cache_time > 24*60*60:  # more than 1 day
                     return False
 
                 conf = f.readline()
