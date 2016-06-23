@@ -213,11 +213,13 @@ class WithingsAgent(CloudDeviceAgent):
                         data = {
                             "time": int(meas["date"])*1000,
                             "type": typeunit[0],
-                            "unit": typeunit[1],
-                            "value": m["value"]
+                            "data": {
+                                "unit": typeunit[1],
+                                "value": m["value"]
+                            }
                         }
+                        logger.info("Transmit %s" % data)
                         self.transmit(data)
-                    # {'attrib': 0, 'category': 1, 'measures': [{'unit': 0, 'value': 71, 'type': 11}], 'date': 1466495266, 'grpid': 563292070}, {'attrib': 0, 'category': 1, 'measures': [{'unit': 0, 'value': 68, 'type': 11}], 'date': 1466494436, 'grpid': 563287057}], 'updatetime': 1466496055}, 'status': 0}
 
             return content
         finally:
