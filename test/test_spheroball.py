@@ -49,9 +49,29 @@ class SpheroBallAgentTestCase(unittest.TestCase):
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
         pygame.init()
-        canvas = pygame.display.set_mode((400,400),0,32)
-        canvas.fill((128,128,128))
-        pygame.display.update()
+        screen = pygame.display.set_mode((400,400),0,32)
+
+        screen.fill((250, 250, 250))
+
+        # Display some text
+        font = pygame.font.Font(None, 36)
+        text = font.render("Sphero Ball Agent", True, (10, 10, 10))
+        screen.blit(text, (10, 10))
+
+        h = 50
+        textlist = [
+            "Forward: <Up Arrow>",
+            "Left: <Left Arrow>",
+            "Right: <Right Arrow>",
+            "Quit: <Q>",
+        ]
+        font = pygame.font.Font(None, 24)
+        for textstr in textlist:
+            h += 30
+            text = font.render(textstr, True, (10, 10, 10))
+            screen.blit(text, (10, h))
+
+        pygame.display.flip()
 
         keys = pygame.key.get_pressed()
         clock1 = pygame.time.Clock()
@@ -62,7 +82,7 @@ class SpheroBallAgentTestCase(unittest.TestCase):
 
         def handle():
             left = 0; right = 0; down = 0; up = 0; angle = 0
-            maxcnt = 128; maxspeed = 128; maxangle = 359
+            maxcnt = 16; maxspeed = 128; maxangle = 359
             while self.is_running:
                 if keys[pygame.K_q]:
                     self.is_running = False
