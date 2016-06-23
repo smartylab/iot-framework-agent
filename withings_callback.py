@@ -31,6 +31,7 @@ def stop():
     if not 'werkzeug.server.shutdown' in flask_request.environ:
         raise RuntimeError('Not running the development server')
     flask_request.environ['werkzeug.server.shutdown']()
+    return ""
 
 
 def run():
