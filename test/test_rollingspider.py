@@ -18,7 +18,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
 
     def setUp(self):
         self.user_id = 'mkkim'
-        self.device_item_id = 1
+        self.device_item_id = 7
         # self.addr = "A0:14:3D:4F:AF:0A"
         self.addr = "E0:14:9F:34:3D:4F"
         self.is_running = True
@@ -32,14 +32,49 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
         pygame.init()
-        canvas = pygame.display.set_mode((400,400),0,32)
-        canvas.fill((128,128,128))
-        pygame.display.update()
+        screen = pygame.display.set_mode((400,400),0,32)
+
+        screen.fill((250, 250, 250))
+
+        # Display some text
+        font = pygame.font.Font(None, 36)
+        text = font.render("Rolling Spider Agent", True, (10, 10, 10))
+        screen.blit(text, (10, 10))
+
+        h = 50
+        textlist = [
+            "Takeoff: <Enter>",
+            "Land: <Space>",
+            "Emergency: <Q>",
+            "Left: <Left Arrow>",
+            "Right: <Right Arrow>",
+            "Forward: <Up Arrow>",
+            "Backward: <Down Arrow>",
+            "Ascend: <A>",
+            "Descend: <Z>",
+            "Inc. Speed: <.>",
+            "Dec. Speed: <,>",
+        ]
+        font = pygame.font.Font(None, 24)
+        for textstr in textlist:
+            h += 30
+            text = font.render(textstr, True, (10, 10, 10))
+            screen.blit(text, (10, h))
+
+        pygame.display.flip()
 
         clock1 = pygame.time.Clock()
         clock2 = pygame.time.Clock()
 
         keys = pygame.key.get_pressed()
+
+        def transmit():
+            time_from = time.time()
+            context = a.acquire_context()
+            self.logger.info("Acquired Context: %s" % context)
+            a.transmit(context)
+            time_to = time.time()
+            self.logger.info("Time Taken for Acquisition and Transmission: %s (s)" % (time_to - time_from))
 
         def handle():
             while self.is_running:
@@ -61,31 +96,22 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
                 if keys[pygame.K_z]:
                     self.logger.info("Descend")
                     a.descend()
-                elif keys[pygame.K_x]:
+                elif keys[pygame.K_a]:
                     self.logger.info("Ascend")
                     a.ascend()
 
                 if keys[pygame.K_PERIOD]:
                     self.logger.info("Inc. Speed")
                     a.incr_speed()
+                    transmit()
                 elif keys[pygame.K_COMMA]:
                     self.logger.info("Dec. Speed")
                     a.decr_speed()
+                    transmit()
 
-                clock1.tick(16)
+                clock1.tick(4)
 
         threading.Thread(target=handle).start()
-
-        def transmit():
-            while self.is_running:
-                time_from = time.time()
-                self.logger.info("Acquired Context: %s" % a.acquire_context())
-                # a.transmit(a.acquire_context())
-                time_to = time.time()
-                self.logger.info("Time Taken for Acquisition and Transmission: %s (s)" % (time_to - time_from))
-                clock2.tick(4)
-
-        threading.Thread(target=transmit).start()
 
         while self.is_running:
             for event in pygame.event.get():
@@ -98,12 +124,15 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
                     if keys[pygame.K_RETURN]:
                         self.logger.info("Takeoff")
                         a.takeoff()
+                        transmit()
                     elif keys[pygame.K_SPACE]:
                         self.logger.info("Land")
                         a.land()
+                        transmit()
                     elif keys[pygame.K_q]:
                         self.logger.info("Emergency")
                         a.emergency()
+                        transmit()
                         self.is_running = False
                         break
 

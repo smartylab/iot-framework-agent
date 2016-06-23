@@ -47,10 +47,12 @@ if __name__ == '__main__':
                 data['password'] = password
 
             logger.info("Try to connect with %s" % data)
-            r = requests.post(settings.CONTEXT_API, data=json.dumps(data))
-            r = r.json()
+            res = requests.post(settings.CONTEXT_API, data=json.dumps(data))
+            device = res.json()
 
             # TODO: Initialize a device agent
+            logger.info(device)
+
         except Exception as e:
             logger.error(e)
 

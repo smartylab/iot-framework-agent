@@ -330,14 +330,14 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
 
     @staticmethod
     def callback(t, data):
-        pass
+        logger.info("[%s] %s" % (t, data))
 
     def acquire_context(self):
         return {
             "type": "RollingSpider status",
             "time": int(time.time()*1000),
             "data": [
-                {"sub_type": "speed", "value": self.drone.speed, "unit": "m/s"},
+                {"sub_type": "configured speed", "value": self.drone.speed, "unit": "cm/s"},
                 {"sub_type": "status", "value": self.statuslist[self.drone.status]}
             ]
         }
