@@ -40,7 +40,8 @@ class SpheroBallAgentTestCase(unittest.TestCase):
         self.logger.setLevel(logging.INFO)
 
     def tearDown(self):
-        requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        res = requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        self.logger.info(res)
 
     def test(self):
         time_from = time.time()
