@@ -18,7 +18,8 @@ logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s", level=logging.
 class WithingsAgentTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.server_addr = "http://203.253.23.40"
+        self.server_addr = withings_callback.server_addr
+        self.server_port = withings_callback.server_port
         self.user_id = 'mkkim'
         self.password = '1234'
         self.device_item_id = 10
@@ -35,21 +36,21 @@ class WithingsAgentTestCase(unittest.TestCase):
         self.key, self.secret = self.device_item['item_address'].split('/')
         self.logger = logging.getLogger("WithingsAgentTestCase")
 
-        self.server = multiprocessing.Process(target=withings_callback.app.run, kwargs={"host":"0.0.0.0"})
+        self.server = threading.Thread(target=withings_callback.run)
         self.server.start()
 
     def tearDown(self):
         res = requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
         self.logger.info(res)
-        if self.server is not None:
-            self.server.terminate()
-            self.server.join()
+        requests.post('%s:%s/kill' % (self.server_addr, self.server_port))
+        self.server.join()
 
     def test(self):
         a = WithingsAgent(fwk_user_id=self.user_id, device_item_id=self.device_item_id,
                           key=self.key,
                           secret=self.secret,
-                          server_addr=self.server_addr)
+                          server_addr=self.server_addr,
+                          server_port=self.server_port)
         a.connect()
         while not a.is_authorized:
             time.sleep(1)
