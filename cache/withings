@@ -1,2 +1,2 @@
-1466678051
-{"access_token": {"oauth_token": "6981915cb19fcee4126b2f33b514ed3c3223c4322746bdc29c200b905f923", "userid": "10628265", "deviceid": "0", "oauth_token_secret": "b23bcc348df8010e384882e37d1e51f49859e370856e96824597d6494bee"}, "request_token": {"oauth_token": "18b5818272bcb3852e703db0e7b604dd47527c28cb6725bfb42c9591f331", "oauth_token_secret": "01d89c07e028dde3401ff0539e9b30d2dc338690663596e2c47028957dc"}, "userid": "10628265", "oauth_verifier": "qpmWg7OBOy7tqPFVU"}
+1466680511
+{"oauth_verifier": "zq62utvzVnNPY", "access_token": {"oauth_token_secret": "b23bcc348df8010e384882e37d1e51f49859e370856e96824597d6494bee", "oauth_token": "6981915cb19fcee4126b2f33b514ed3c3223c4322746bdc29c200b905f923", "deviceid": "0", "userid": "10628265"}, "userid": "10628265", "request_token": {"oauth_token_secret": "c157f836119e87139cf76b63e8f6d0c8c164ccce88ef1d069c65493956e7", "oauth_token": "622f0b7c31d77e4bdc9bbd1e91d08159d6149d38773795695798dd63"}}

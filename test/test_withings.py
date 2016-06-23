@@ -55,6 +55,7 @@ class WithingsAgentTestCase(unittest.TestCase):
             time.sleep(1)
         contexts = a.acquire(MEASTYPE.pulse)
         for context in contexts:
+            self.logger.info("Context: %s" % context)
             time_from = time.time()
             a.transmit(context)
             time_to = time.time()
