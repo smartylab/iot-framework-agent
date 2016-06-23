@@ -1,9 +1,12 @@
+import json
 import logging
 import unittest
 
 import time
 
+import requests
 
+import settings
 from agent.agent import EHealthKitAgent
 
 logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s", level=logging.INFO)
@@ -14,8 +17,22 @@ class EHealthKitAgentTestCase(unittest.TestCase):
     def setUp(self):
         self.user_id = 'mkkim'
         self.device_item_id = 1
-        self.addr = 'COM18'
+        self.password = '1234'
+
+        self.connection_data = {
+            "user_id": self.user_id,
+            "password": self.password,
+            "device_item_id": self.device_item_id
+        }
+        res = requests.post(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        assert res['code'] == 'SUCCESS'
+        self.device_item = res['device_item']
+        self.device_model = res['device_model']
+        self.addr = self.device_item['item_address']
         self.logger = logging.getLogger("EHealthKitAgentTestCase")
+
+    def tearDown(self):
+        requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
 
     def test_ecg(self):
         time_from = time.time()

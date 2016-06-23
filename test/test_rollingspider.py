@@ -1,3 +1,4 @@
+import json
 import logging
 import unittest
 
@@ -8,7 +9,9 @@ import threading
 import pygame
 import sys
 
+import requests
 
+import settings
 from agent.agent import RollingSpiderAgent
 
 logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s")
@@ -18,12 +21,25 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
 
     def setUp(self):
         self.user_id = 'mkkim'
+        self.password = '1234'
         self.device_item_id = 7
-        # self.addr = "A0:14:3D:4F:AF:0A"
-        self.addr = "E0:14:9F:34:3D:4F"
+
+        self.connection_data = {
+            "user_id": self.user_id,
+            "password": self.password,
+            "device_item_id": self.device_item_id
+        }
+        res = requests.post(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        assert res['code'] == 'SUCCESS'
+        self.device_item = res['device_item']
+        self.device_model = res['device_model']
+        self.addr = self.device_item['item_address']
         self.is_running = True
         self.logger = logging.getLogger("RollingSpiderAgentTestCase")
         self.logger.setLevel(logging.INFO)
+
+    def tearDown(self):
+        requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
 
     def test(self):
         time_from = time.time()

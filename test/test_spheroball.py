@@ -1,3 +1,4 @@
+import json
 import logging
 import unittest
 
@@ -9,7 +10,9 @@ import pygame
 import sys
 
 import numpy as np
+import requests
 
+import settings
 from agent.agent import SpheroBallAgent
 
 logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s")
@@ -19,11 +22,25 @@ class SpheroBallAgentTestCase(unittest.TestCase):
 
     def setUp(self):
         self.user_id = 'mkkim'
-        self.device_item_id = 1
-        self.addr = "68:86:E7:04:A6:B4"
+        self.password = '1234'
+        self.device_item_id = 8
+
+        self.connection_data = {
+            "user_id": self.user_id,
+            "password": self.password,
+            "device_item_id": self.device_item_id
+        }
+        res = requests.post(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        assert res['code'] == 'SUCCESS'
+        self.device_item = res['device_item']
+        self.device_model = res['device_model']
+        self.addr = self.device_item['item_address']
         self.is_running = True
         self.logger = logging.getLogger("SpheroBallAgentTestCase")
         self.logger.setLevel(logging.INFO)
+
+    def tearDown(self):
+        requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
 
     def test(self):
         time_from = time.time()

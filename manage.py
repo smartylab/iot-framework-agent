@@ -39,7 +39,7 @@ if __name__ == '__main__':
                     password = val
         try:
             data = {
-                "device_item_id": device_item_id
+                "device_item_id": int(device_item_id)
             }
             if user_id is not None:
                 data['user_id'] = user_id
@@ -47,11 +47,29 @@ if __name__ == '__main__':
                 data['password'] = password
 
             logger.info("Try to connect with %s" % data)
-            res = requests.post(settings.CONTEXT_API, data=json.dumps(data))
+            res = requests.post(settings.CONNECT_API, data=json.dumps(data))
             device = res.json()
 
             # TODO: Initialize a device agent
             logger.info(device)
+            """
+            {'device_item': {'item_name': 'Rolling Spider 1', 'item_id': 7, 'connected': False, 'model_id': 18,
+                             'item_address': 'E0:14:9F:34:3D:4F', 'user_id': 'mkkim'},
+             'device_model': {'model_name': 'Rolling Spider', 'model_id': 18, 'model_network_protocol': 'Bluetooth'},
+             'user_id': 'mkkim', 'code': 'SUCCESS'}
+             """
+            if device['code'] == 'SUCCESS':
+                device_model_name = device['device_model']['model_name']
+                if device_model_name == 'Rolling Spider':
+                    pass
+                elif device_model_name == 'Sphero Ball 2':
+                    pass
+                elif device_model_name == 'e-Health Sensor Kit':
+                    pass
+                elif device_model_name == 'Withings':
+                    pass
+
+
 
         except Exception as e:
             logger.error(e)
