@@ -5,7 +5,6 @@ import unittest
 
 import time
 
-import multiprocessing
 import requests
 
 import settings
@@ -18,8 +17,8 @@ logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s", level=logging.
 class WithingsAgentTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.server_addr = withings_callback.server_addr
-        self.server_port = withings_callback.server_port
+        self.agent_addr = settings.AGENT_ADDR
+        self.agent_port = settings.AGENT_PORT
         self.user_id = 'mkkim'
         self.password = '1234'
         self.device_item_id = 10
@@ -42,15 +41,15 @@ class WithingsAgentTestCase(unittest.TestCase):
     def tearDown(self):
         res = requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
         self.logger.info(res)
-        requests.post('%s:%s/kill' % (self.server_addr, self.server_port))
+        requests.post('%s:%s/kill' % (self.agent_addr, self.agent_port))
         self.server.join()
 
     def test(self):
         a = WithingsAgent(fwk_user_id=self.user_id, device_item_id=self.device_item_id,
                           key=self.key,
                           secret=self.secret,
-                          server_addr=self.server_addr,
-                          server_port=self.server_port)
+                          server_addr=self.agent_addr,
+                          server_port=self.agent_port)
         a.connect()
         while not a.is_authorized:
             time.sleep(1)

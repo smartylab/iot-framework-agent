@@ -1,16 +1,11 @@
-import time
-
-import multiprocessing
-from datashape import json
 from flask import Flask
 from werkzeug.serving import run_simple
 
+import settings
 from agent.withings_agent import WithingsAgent
 from flask import request as flask_request
 
 app = Flask(__name__)
-server_addr = "http://203.253.23.40"
-server_port = 5000
 
 @app.route('/cb/withings')
 def callback():
@@ -35,5 +30,5 @@ def stop():
 
 
 def run():
-    run_simple("0.0.0.0", server_port, app)
+    run_simple("0.0.0.0", settings.AGENT_PORT, app)
 

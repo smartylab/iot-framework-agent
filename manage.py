@@ -4,7 +4,6 @@ import sys
 
 import requests
 
-import agent
 import settings
 
 logger = logging.getLogger("IoT Device Agent")

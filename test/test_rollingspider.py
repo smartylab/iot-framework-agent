@@ -7,7 +7,6 @@ import time
 import threading
 
 import pygame
-import sys
 
 import requests
 

@@ -1,11 +1,9 @@
 import json
 import logging
 import os
-import threading
 import urllib
 import webbrowser
 
-import httplib2
 import oauth2 as oauth
 
 import requests
