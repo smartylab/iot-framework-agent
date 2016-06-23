@@ -87,7 +87,6 @@ class SpheroBallAgentTestCase(unittest.TestCase):
             while self.is_running:
                 if keys[pygame.K_q]:
                     self.is_running = False
-                    a.disconnect()
                     self.logger.info("Disconnected.")
 
                 if keys[pygame.K_LEFT]:

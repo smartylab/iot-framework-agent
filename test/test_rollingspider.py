@@ -39,11 +39,15 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
         self.logger.setLevel(logging.INFO)
 
     def tearDown(self):
-        requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        res = requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        self.logger.info(res)
 
     def test(self):
         time_from = time.time()
         a = RollingSpiderAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+        if not a.connected:
+            self.logger.error("Cannot connect to the device, %s" % self.device_item)
+            return
         time_to = time.time()
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
@@ -133,7 +137,6 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.is_running = False
-                    sys.exit(0)
                 if event.type == pygame.KEYDOWN:
                     keys = pygame.key.get_pressed()
 

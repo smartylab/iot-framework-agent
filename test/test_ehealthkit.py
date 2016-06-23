@@ -16,7 +16,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
 
     def setUp(self):
         self.user_id = 'mkkim'
-        self.device_item_id = 1
+        self.device_item_id = 9
         self.password = '1234'
 
         self.connection_data = {
@@ -32,7 +32,8 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger = logging.getLogger("EHealthKitAgentTestCase")
 
     def tearDown(self):
-        requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        res = requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
+        self.logger.info(res)
 
     def test_ecg(self):
         time_from = time.time()

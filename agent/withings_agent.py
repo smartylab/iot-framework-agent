@@ -47,8 +47,8 @@ class MEASTYPE(Enum):
 class WithingsAgent(CloudDeviceAgent):
 
     REQUEST_TOKEN_URL = 'https://oauth.withings.com/account/request_token'
-    AUTHORIZE_URL = 'http://oauth.withings.com/account/authorize'
-    ACCESS_TOKEN_URL = 'http://oauth.withings.com/account/access_token'
+    AUTHORIZE_URL = 'https://oauth.withings.com/account/authorize'
+    ACCESS_TOKEN_URL = 'https://oauth.withings.com/account/access_token'
     API_URL = 'http://wbsapi.withings.net/measure'
     EXPIRATION_TIME = 20 * 60 - 10  # 20 minues - 10 seconds
     instance = None
@@ -239,6 +239,10 @@ class WithingsAgent(CloudDeviceAgent):
         if os.path.isfile(self.CACHE_PATH):
             with open(self.CACHE_PATH, "r") as f:
                 cache_time = int(f.readline())
+
+                if time.time()-cache_time > 20*60:  # more than 20 minutes
+                    return False
+
                 conf = f.readline()
                 conf = json.loads(conf)
                 self.request_token = conf["request_token"]

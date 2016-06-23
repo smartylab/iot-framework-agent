@@ -1,4 +1,6 @@
 import time
+
+import multiprocessing
 from datashape import json
 from flask import Flask
 
@@ -6,6 +8,7 @@ from agent.withings_agent import WithingsAgent
 from flask import request as flask_request
 
 app = Flask(__name__)
+server = None
 
 @app.route('/cb/withings')
 def callback():

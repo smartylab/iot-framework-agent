@@ -51,7 +51,7 @@ class ReaderThread(StoppableThread):
         patterns = self.reader.compile_pattern_list([dronedict.P_NOTIFICATION, dronedict.P_BATTERY, dronedict.P_CONNECTED, pexpect.TIMEOUT, pexpect.EOF])
         while True:
             if not self.stop_event.is_set():
-                index = self.reader.expect_list(patterns, timeout=30)
+                index = self.reader.expect_list(patterns, timeout=5)
                 if index == 0:
                     self.drone.send(self.drone.send_ack, self.reader.after.decode('UTF-8').split(' ')[3])
                     dronedict.process_notification(self.drone, self.reader.after)

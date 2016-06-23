@@ -248,9 +248,11 @@ class SpheroBallAgent(BluetoothDeviceAgent):
 
 class RollingSpiderAgent(BluetoothDeviceAgent):
 
+    agentstatuslist = ["Connecting", "Connected", "Disconnecting", "Disconnected", "Failed"]
     statuslist = ["Disconnected", "Init", "Connected", "Error"]
 
     def __init__(self, user_id, device_item_id, addr):
+        self.status = self.agentstatuslist[3]
         self.drone = None
         self.connected = False
         self.user_id = user_id
@@ -259,9 +261,12 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
         self.connect()
 
     def connect(self):
+        self.status = self.agentstatuslist[0]
         self.drone = minidrone.MiniDrone(mac=self.addr, callback=self.callback)
         self.drone.connect()
-        self.connected = True
+        while self.status == self.agentstatuslist[0]:
+                time.sleep(1)
+        self.connected = self.status == self.agentstatuslist[1]
 
     def disconnect(self):
         self.connected = False
@@ -328,9 +333,24 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
         if self.drone is not None:
             return self.drone.speed
 
-    @staticmethod
-    def callback(t, data):
+    def callback(self, t, data):
         logger.info("[%s] %s" % (t, data))
+        if self.status == self.agentstatuslist[0]:  # Connecting
+            if t == 4 and data == 'n':
+                self.status = self.agentstatuslist[4]
+                return
+            elif t == 4 and data == 'y':
+                self.status = self.agentstatuslist[1]
+                return
+
+        elif self.status == self.agentstatuslist[2]:  # Disconnecting
+            if t == 4 and data == 'n':
+                self.status = self.agentstatuslist[4]
+                return
+            elif t == 4 and data == 'y':
+                self.status = self.agentstatuslist[3]
+                return
+
 
     def acquire_context(self):
         return {
