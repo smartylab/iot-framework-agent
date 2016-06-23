@@ -35,7 +35,7 @@ class WithingsAgentTestCase(unittest.TestCase):
         self.key, self.secret = self.device_item['item_address'].split('/')
         self.logger = logging.getLogger("WithingsAgentTestCase")
 
-        self.server = multiprocessing.Process(target=withings_callback.app.run)
+        self.server = multiprocessing.Process(target=withings_callback.app.run, kwargs={"host":"0.0.0.0"})
         self.server.start()
 
     def tearDown(self):
