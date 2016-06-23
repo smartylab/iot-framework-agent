@@ -93,7 +93,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
             self.logger.info("Acquired Context: %s" % context)
             a.transmit(context)
             time_to = time.time()
-            self.logger.info("Time Taken for Acquisition and Transmission: %s (s)" % (time_to - time_from))
+            self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
 
         def handle():
             while self.is_running:
