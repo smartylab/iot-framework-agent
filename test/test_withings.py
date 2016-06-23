@@ -53,8 +53,12 @@ class WithingsAgentTestCase(unittest.TestCase):
         a.connect()
         while not a.is_authorized:
             time.sleep(1)
-        a.acquire(MEASTYPE.pulse)
-
+        contexts = a.acquire(MEASTYPE.pulse)
+        for context in contexts:
+            time_from = time.time()
+            a.transmit(context)
+            time_to = time.time()
+            self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
 
 if __name__ == '__main__':
     unittest.main()

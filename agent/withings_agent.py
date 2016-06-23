@@ -205,12 +205,13 @@ class WithingsAgent(CloudDeviceAgent):
             logger.info("[Acquire] Contexts:")
             logger.info("%s" % content)
 
+            contexts = []
             if content is not None and 'body' in content and len(content['body']['measuregrps']) > 0:
                 measgrp = content['body']['measuregrps']
                 for meas in measgrp:
                     for m in meas['measures']:
                         typeunit = MEASTYPE_NAME_UNIT[int(m['type'])]
-                        data = {
+                        context = {
                             "time": int(meas["date"])*1000,
                             "type": typeunit[0],
                             "data": {
@@ -218,10 +219,9 @@ class WithingsAgent(CloudDeviceAgent):
                                 "value": m["value"]
                             }
                         }
-                        logger.info("Transmit %s" % data)
-                        self.transmit(data)
+                        contexts.append(context)
 
-            return content
+            return contexts
         finally:
             pass
 

@@ -124,10 +124,11 @@ class SpheroBallAgentTestCase(unittest.TestCase):
 
         def transmit():
             while self.is_running:
+                context = a.acquire_context()
                 time_from = time.time()
-                a.transmit(a.acquire_context())
+                a.transmit(context)
                 time_to = time.time()
-                self.logger.info("Time Taken for Acquisition and Transmission: %s (s)" % (time_to - time_from))
+                self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
                 clock2.tick(4)
 
         threading.Thread(target=transmit).start()
