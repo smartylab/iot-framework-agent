@@ -20,4 +20,4 @@
 * sudo python3 setup.py install
 
 ## Python Dependencies ##
-* sudo pip install pyserial netifaces oauth2 pybluez requests
+* sudo pip install pyserial netifaces oauth2 pybluez requests flask
