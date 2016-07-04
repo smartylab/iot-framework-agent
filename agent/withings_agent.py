@@ -53,12 +53,12 @@ class WithingsAgent(CloudDeviceAgent):
     CACHE_PATH = os.path.join(settings.BASE_DIR, "cache/withings")
 
 
-    def __init__(self, fwk_user_id, device_item_id, key, secret, server_addr, server_port=5000):
-        self.fwk_user_id = fwk_user_id
-        self.device_item_id = device_item_id
+    def __init__(self, key, secret, server_addr=None, server_port=None):
+        self.server_addr = server_addr if server_addr is not None else settings.AGENT_ADDR
+        self.server_port = server_port if server_port is not None else settings.AGENT_PORT
+
         self.consumer_key = key
         self.consumer_secret = secret
-        self.server_addr = server_addr
         self.is_connected = False
         self.is_authorized = False
 

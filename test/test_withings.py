@@ -45,8 +45,7 @@ class WithingsAgentTestCase(unittest.TestCase):
         self.server.join()
 
     def test(self):
-        a = WithingsAgent(fwk_user_id=self.user_id, device_item_id=self.device_item_id,
-                          key=self.key,
+        a = WithingsAgent(key=self.key,
                           secret=self.secret,
                           server_addr=self.agent_addr,
                           server_port=self.agent_port)

@@ -5,6 +5,8 @@ import sys
 import requests
 
 import settings
+from agent.agent import EHealthKitAgent, RollingSpiderAgent, SpheroBallAgent
+from agent.withings_agent import WithingsAgent
 
 logger = logging.getLogger("IoT Device Agent")
 logger.setLevel(logging.INFO)
@@ -59,16 +61,16 @@ if __name__ == '__main__':
              """
             if device['code'] == 'SUCCESS':
                 device_model_name = device['device_model']['model_name']
+                device_item_id = device['device_item']['item_id']
+
                 if device_model_name == 'Rolling Spider':
-                    pass
+                    a = RollingSpiderAgent(addr=device['device_item']['item_address'])
                 elif device_model_name == 'Sphero Ball 2':
-                    pass
+                    a = SpheroBallAgent(addr=device['device_item']['item_address'])
                 elif device_model_name == 'e-Health Sensor Kit':
-                    pass
+                    a = EHealthKitAgent(addr=device['device_item']['item_address'])
                 elif device_model_name == 'Withings':
-                    pass
-
-
+                    a = WithingsAgent(*(device['device_item']['item_address'].split()))
 
         except Exception as e:
             logger.error(e)

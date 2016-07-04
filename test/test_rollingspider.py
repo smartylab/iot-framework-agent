@@ -43,7 +43,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
 
     def test(self):
         time_from = time.time()
-        a = RollingSpiderAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+        a = RollingSpiderAgent(addr=self.addr)
         if not a.connected:
             self.logger.error("Cannot connect to the device, %s" % self.device_item)
             return

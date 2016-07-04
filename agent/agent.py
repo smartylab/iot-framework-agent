@@ -108,9 +108,7 @@ class EHealthKitAgent(DeviceAgent):
         "COM18",
     ]
 
-    def __init__(self, user_id, device_item_id, addr):
-        self.user_id = user_id
-        self.device_item_id = device_item_id
+    def __init__(self, addr):
         self.serial_conn = None
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
@@ -208,9 +206,7 @@ class SpheroBallAgent(BluetoothDeviceAgent):
 
     sphero = sphero_driver.Sphero()
 
-    def __init__(self, user_id, device_item_id, addr):
-        self.user_id = user_id
-        self.device_item_id = device_item_id
+    def __init__(self, addr):
         self.tr = None
         self.conn = None
         self.connected = False
@@ -251,12 +247,10 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
     agentstatuslist = ["Connecting", "Connected", "Disconnecting", "Disconnected", "Failed"]
     statuslist = ["Disconnected", "Init", "Connected", "Error"]
 
-    def __init__(self, user_id, device_item_id, addr):
+    def __init__(self, addr):
         self.status = self.agentstatuslist[3]
         self.drone = None
         self.connected = False
-        self.user_id = user_id
-        self.device_item_id = device_item_id
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
 

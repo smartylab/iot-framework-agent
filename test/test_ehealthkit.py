@@ -37,7 +37,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
 
     def test_ecg(self):
         time_from = time.time()
-        a = EHealthKitAgent(user_id=self.user_id, device_item_id=self.device_item_id, addr=self.addr)
+        a = EHealthKitAgent(addr=self.addr)
         time_to = time.time()
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
