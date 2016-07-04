@@ -4,11 +4,8 @@ import sys
 import unittest
 
 import requests
-import time
 
 import settings
-from agent.agent import EHealthKitAgent, RollingSpiderAgent, SpheroBallAgent
-from agent.withings_agent import WithingsAgent
 
 logger = logging.getLogger("IoT Device Agent")
 logger.setLevel(logging.INFO)
@@ -64,22 +61,22 @@ if __name__ == '__main__':
                 device_model_name = device['device_model']['model_name']
                 device_item_addr = device['device_item']['item_address']
 
+                tester = unittest.TextTestRunner(verbosity=2)
                 if device_model_name == 'Rolling Spider':
-                    a = RollingSpiderAgent(addr=device['device_item']['item_address'])
+                    pass
                 elif device_model_name == 'Sphero Ball 2':
-                    a = SpheroBallAgent(addr=device['device_item']['item_address'])
+                    pass
                 elif device_model_name == 'e-Health Sensor Kit':
                     from test.test_ehealthkit import EHealthKitAgentTestCase
-                    EHealthKitAgentTestCase.addr = device_item_addr
+                    tester.run(EHealthKitAgentTestCase(device_item_addr))
                 elif device_model_name == 'Withings':
-                    a = WithingsAgent(*(device['device_item']['item_address'].split()))
+                    pass
                 else:
                     raise Exception("Not supported device model.")
 
-                unittest.main()
-
                 res = requests.delete(settings.CONNECT_API, data=json.dumps(connection_data)).json()
                 logger.info(res)
+
             else:
                 raise Exception("Fail to connect.")
 

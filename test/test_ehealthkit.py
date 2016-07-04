@@ -13,12 +13,14 @@ logging.basicConfig(format="[%(name)s][%(asctime)s] %(message)s", level=logging.
 
 
 class EHealthKitAgentTestCase(unittest.TestCase):
-    addr = None
+    def __init__(self, addr):
+        super(EHealthKitAgentTestCase, self).__init__()
+        self.addr = addr
 
     def setUp(self):
         self.logger = logging.getLogger("EHealthKitAgentTestCase")
 
-    def test_ecg(self):
+    def runTest(self):
         time_from = time.time()
         a = EHealthKitAgent(addr=self.addr)
         time_to = time.time()
