@@ -4,7 +4,6 @@ import unittest
 
 import time
 import threading
-import pygame
 import requests
 
 import numpy as np
@@ -78,6 +77,7 @@ class SpheroBallAgentTestCase(unittest.TestCase):
         self.logger.info(res)
 
     def runTest(self):
+        import pygame
         time_from = time.time()
         a = SpheroBallAgent(addr=self.addr)
         time_to = time.time()
@@ -194,6 +194,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
         self.logger.setLevel(logging.INFO)
 
     def runTest(self):
+        import pygame
         time_from = time.time()
         a = RollingSpiderAgent(addr=self.addr)
         if not a.connected:
