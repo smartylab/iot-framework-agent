@@ -63,16 +63,16 @@ if __name__ == '__main__':
 
                 tester = unittest.TextTestRunner(verbosity=2)
                 if 'Rolling Spider' in device_model_name:
-                    from test.test_rollingspider import RollingSpiderAgentTestCase
+                    from test.test import RollingSpiderAgentTestCase
                     tester.run(RollingSpiderAgentTestCase(user_id, device_item_id, device_item_addr))
                 elif 'Sphero Ball' in device_model_name:
-                    from test.test_spheroball import SpheroBallAgentTestCase
+                    from test.test import SpheroBallAgentTestCase
                     tester.run(SpheroBallAgentTestCase(user_id, device_item_id, device_item_addr))
                 elif 'e-Health Sensor Kit' in device_model_name:
-                    from test.test_ehealthkit import EHealthKitAgentTestCase
+                    from test.test import EHealthKitAgentTestCase
                     tester.run(EHealthKitAgentTestCase(user_id, device_item_id, device_item_addr))
                 elif 'Withings' in device_model_name:
-                    from test.test_withings import WithingsAgentTestCase
+                    from test.test import WithingsAgentTestCase
                     args = [user_id].extend(device_item_addr.split('/'))
                     tester.run(WithingsAgentTestCase(*args))
                 else:
