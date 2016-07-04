@@ -1,8 +1,10 @@
 import json
 import logging
 import sys
+import unittest
 
 import requests
+import time
 
 import settings
 from agent.agent import EHealthKitAgent, RollingSpiderAgent, SpheroBallAgent
@@ -20,7 +22,7 @@ if __name__ == '__main__':
 
     command = sys.argv[1]
 
-    if command == "connect":
+    if command == "test":
         if len(sys.argv) < 3:
             logger.error("Wrong usage.\nUsage: python manage.py %s <device_item_id> -u <user_id> -p <password>" % command)
             sys.exit(0)
@@ -39,16 +41,16 @@ if __name__ == '__main__':
                 elif opt == '-p':
                     password = val
         try:
-            data = {
+            connection_data = {
                 "device_item_id": int(device_item_id)
             }
             if user_id is not None:
-                data['user_id'] = user_id
+                connection_data['user_id'] = user_id
             if password is not None:
-                data['password'] = password
+                connection_data['password'] = password
 
-            logger.info("Try to connect with %s" % data)
-            res = requests.post(settings.CONNECT_API, data=json.dumps(data))
+            logger.info("Try to connect with %s" % connection_data)
+            res = requests.post(settings.CONNECT_API, data=json.dumps(connection_data))
             device = res.json()
 
             logger.info(device)
@@ -60,22 +62,26 @@ if __name__ == '__main__':
              """
             if device['code'] == 'SUCCESS':
                 device_model_name = device['device_model']['model_name']
-                device_item_id = device['device_item']['item_id']
+                device_item_addr = device['device_item']['item_address']
 
                 if device_model_name == 'Rolling Spider':
                     a = RollingSpiderAgent(addr=device['device_item']['item_address'])
                 elif device_model_name == 'Sphero Ball 2':
                     a = SpheroBallAgent(addr=device['device_item']['item_address'])
                 elif device_model_name == 'e-Health Sensor Kit':
-                    a = EHealthKitAgent(addr=device['device_item']['item_address'])
+                    from test.test_ehealthkit import EHealthKitAgentTestCase
+                    EHealthKitAgentTestCase.addr = device_item_addr
                 elif device_model_name == 'Withings':
                     a = WithingsAgent(*(device['device_item']['item_address'].split()))
                 else:
-                    logger.error("Failed.")
+                    raise Exception("Not supported device model.")
 
+                unittest.main()
+
+                res = requests.delete(settings.CONNECT_API, data=json.dumps(connection_data)).json()
+                logger.info(res)
             else:
-                logger.error("Failed.")
-                exit()
+                raise Exception("Fail to connect.")
 
         except Exception as e:
             logger.error(e)
