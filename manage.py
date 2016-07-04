@@ -62,15 +62,19 @@ if __name__ == '__main__':
                 device_item_addr = device['device_item']['item_address']
 
                 tester = unittest.TextTestRunner(verbosity=2)
-                if device_model_name == 'Rolling Spider':
-                    pass
-                elif device_model_name == 'Sphero Ball 2':
-                    pass
-                elif device_model_name == 'e-Health Sensor Kit':
+                if 'Rolling Spider' in device_model_name:
+                    from test.test_rollingspider import RollingSpiderAgentTestCase
+                    tester.run(RollingSpiderAgentTestCase(user_id, device_item_id, device_item_addr))
+                elif 'Sphero Ball' in device_model_name:
+                    from test.test_spheroball import SpheroBallAgentTestCase
+                    tester.run(SpheroBallAgentTestCase(user_id, device_item_id, device_item_addr))
+                elif 'e-Health Sensor Kit' in device_model_name:
                     from test.test_ehealthkit import EHealthKitAgentTestCase
-                    tester.run(EHealthKitAgentTestCase(device_item_addr))
-                elif device_model_name == 'Withings':
-                    pass
+                    tester.run(EHealthKitAgentTestCase(user_id, device_item_id, device_item_addr))
+                elif 'Withings' in device_model_name:
+                    from test.test_withings import WithingsAgentTestCase
+                    args = [user_id].extend(device_item_addr.split('/'))
+                    tester.run(WithingsAgentTestCase(*args))
                 else:
                     raise Exception("Not supported device model.")
 
