@@ -10,7 +10,6 @@ import numpy as np
 import sys
 
 import settings
-import withings_callback
 from agent.agent import EHealthKitAgent, SpheroBallAgent, RollingSpiderAgent
 from agent.withings_agent import WithingsAgent, MEASTYPE
 
@@ -324,6 +323,7 @@ class WithingsAgentTestCase(unittest.TestCase):
         self.secret = secret
 
     def setUp(self):
+        import withings_callback
         self.agent_addr = settings.AGENT_ADDR
         self.agent_port = settings.AGENT_PORT
 

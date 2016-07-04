@@ -91,8 +91,8 @@
           <file leaf-file-name="test.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/test.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="353">
-                  <caret line="349" column="32" selection-start-line="349" selection-start-column="32" selection-end-line="349" selection-end-column="32" />
+                <state relative-caret-position="36">
+                  <caret line="325" column="32" selection-start-line="325" selection-start-column="32" selection-end-line="325" selection-end-column="32" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
                   </folding>
@@ -941,7 +941,14 @@
       <option name="project" value="LOCAL" />
       <updated>1467635266874</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="updated">
+      <created>1467635732457</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1467635732457</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1271,8 +1278,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="349" column="32" selection-start-line="349" selection-start-column="32" selection-end-line="349" selection-end-column="32" />
+        <state relative-caret-position="36">
+          <caret line="325" column="32" selection-start-line="325" selection-start-column="32" selection-end-line="325" selection-end-column="32" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
