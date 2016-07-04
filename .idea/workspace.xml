@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53ef8832-f5c6-41ee-94ef-be9ae4742014" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/iot-framework-agent.iml" afterPath="$PROJECT_DIR$/.idea/iot-framework-agent.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agent/agent.py" afterPath="$PROJECT_DIR$/agent/agent.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agent/withings_agent.py" afterPath="$PROJECT_DIR$/agent/withings_agent.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.py" afterPath="$PROJECT_DIR$/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_ehealthkit.py" afterPath="$PROJECT_DIR$/test/test_ehealthkit.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_rollingspider.py" afterPath="$PROJECT_DIR$/test/test_rollingspider.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_spheroball.py" afterPath="$PROJECT_DIR$/test/test_spheroball.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_withings.py" afterPath="$PROJECT_DIR$/test/test_withings.py" />
     </list>
     <ignored path="iot-framework.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,8 +52,8 @@
           <file leaf-file-name="manage.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/manage.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="67" column="47" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
+                <state relative-caret-position="483">
+                  <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
                   </folding>
@@ -97,7 +88,7 @@
           <file leaf-file-name="withings_agent.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/agent/withings_agent.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="164">
+                <state relative-caret-position="-235">
                   <caret line="55" column="70" selection-start-line="55" selection-start-column="70" selection-end-line="55" selection-end-column="70" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
@@ -855,7 +846,14 @@
       <option name="project" value="LOCAL" />
       <updated>1466680719738</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="updated">
+      <created>1467629069797</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1467629069797</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1107,7 +1105,7 @@
         <state relative-caret-position="480">
           <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1127,7 +1125,7 @@
         <state relative-caret-position="479">
           <caret line="47" column="17" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1146,9 +1144,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
           <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1170,7 +1166,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/agent/withings_agent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
+        <state relative-caret-position="-235">
           <caret line="55" column="70" selection-start-line="55" selection-start-column="70" selection-end-line="55" selection-end-column="70" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -1180,8 +1176,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="67" column="47" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
+        <state relative-caret-position="483">
+          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

@@ -51,7 +51,6 @@ if __name__ == '__main__':
             res = requests.post(settings.CONNECT_API, data=json.dumps(data))
             device = res.json()
 
-            # TODO: Initialize a device agent
             logger.info(device)
             """
             {'device_item': {'item_name': 'Rolling Spider 1', 'item_id': 7, 'connected': False, 'model_id': 18,
@@ -71,6 +70,12 @@ if __name__ == '__main__':
                     a = EHealthKitAgent(addr=device['device_item']['item_address'])
                 elif device_model_name == 'Withings':
                     a = WithingsAgent(*(device['device_item']['item_address'].split()))
+                else:
+                    logger.error("Failed.")
+
+            else:
+                logger.error("Failed.")
+                exit()
 
         except Exception as e:
             logger.error(e)
