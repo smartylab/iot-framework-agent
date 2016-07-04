@@ -108,8 +108,10 @@ class EHealthKitAgent(DeviceAgent):
         "COM18",
     ]
 
-    def __init__(self, addr):
+    def __init__(self, user_id, device_item_id, addr):
         self.serial_conn = None
+        self.user_id = user_id
+        self.device_item_id = device_item_id
         self.addr = addr if addr is not None else self.addr_list[0]
         self.connect()
 
@@ -206,11 +208,13 @@ class SpheroBallAgent(BluetoothDeviceAgent):
 
     sphero = sphero_driver.Sphero()
 
-    def __init__(self, addr):
+    def __init__(self, user_id, device_item_id, addr):
         self.tr = None
         self.conn = None
         self.connected = False
-        self.addr = addr if addr is not None else self.addr_list[0]
+        self.user_id = user_id
+        self.device_item_id = device_item_id
+        self.addr = addr
         self.connect()
         self.speed = 0
         self.angle = 0
@@ -247,11 +251,13 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
     agentstatuslist = ["Connecting", "Connected", "Disconnecting", "Disconnected", "Failed"]
     statuslist = ["Disconnected", "Init", "Connected", "Error"]
 
-    def __init__(self, addr):
+    def __init__(self, user_id, device_item_id, addr):
         self.status = self.agentstatuslist[3]
         self.drone = None
         self.connected = False
-        self.addr = addr if addr is not None else self.addr_list[0]
+        self.user_id = user_id
+        self.device_item_id = device_item_id
+        self.addr = addr
         self.connect()
 
     def connect(self):
@@ -364,6 +370,7 @@ class JumpingSumoAgent(BluetoothDeviceAgent):
     ]
 
     def __init__(self):
+        """Not supported"""
         self.drone = None
         self.connected = False
         self.connect()
