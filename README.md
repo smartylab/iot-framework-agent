@@ -7,4 +7,4 @@
 * sudo apt install python-dev bluetooth libbluetooth-dev
 
 ## Python Dependencies ##
-* sudo pip install pyserial netifaces oauth2 pybluez
+* sudo pip install pyserial netifaces oauth2 pybluez requests
