@@ -38,6 +38,8 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         time_to = time.time()
         self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
         self.logger.info("Acquired Context: %s" % context)
+        size = len(context['data']['value'])
+        self.logger.info("Size of Contexts: %s, Average Acquisition Time: %s" % (size, (time_to-time_from)/size))
 
         time_from = time.time()
         a.transmit(context, is_series=True)
