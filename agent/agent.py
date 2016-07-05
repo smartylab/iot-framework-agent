@@ -40,15 +40,18 @@ class DeviceAgent(object):
         try:
             logger.debug("Transmitting context...")
             if not is_series:
-                requests.post(settings.CONTEXT_API, data=json.dumps({
+                transmission_data = {
                     'device_item_id': self.device_item_id,
                     'context': data
-                }))
+                }
+                requests.post(settings.CONTEXT_API, data=json.dumps(transmission_data))
             else:
-                requests.post(settings.SERIES_CONTEXT_API, data=json.dumps({
+                transmission_data = {
                     'device_item_id': self.device_item_id,
                     'series_context': data
-                }))
+                }
+                requests.post(settings.SERIES_CONTEXT_API, data=json.dumps(transmission_data))
+            logger.info("Transmission Data: %s" % transmission_data)
             logger.debug("Transmission done.")
         except Exception as e:
             logger.error("Transmission error.")

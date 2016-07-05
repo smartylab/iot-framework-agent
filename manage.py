@@ -70,7 +70,8 @@ if __name__ == '__main__':
                     tester.run(SpheroBallAgentTestCase(user_id, device_item_id, device_item_addr))
                 elif 'e-Health Sensor Kit' in device_model_name:
                     from test.test import EHealthKitAgentTestCase
-                    tester.run(EHealthKitAgentTestCase(user_id, device_item_id, device_item_addr))
+                    tester.run(EHealthKitAgentTestCase(user_id, device_item_id, 'COM18'))
+                    # tester.run(EHealthKitAgentTestCase(user_id, device_item_id, device_item_addr))
                 elif 'Withings' in device_model_name:
                     from test.test import WithingsAgentTestCase
                     args = [user_id].extend(device_item_addr.split('/'))

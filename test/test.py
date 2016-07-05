@@ -42,8 +42,21 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger.info("Size of Contexts: %s, Average Acquisition Time: %s" % (size, (time_to-time_from)/size))
 
         time_from = time.time()
-        a.transmit(context, is_series
-        =True)
+        a.transmit(context, is_series=True)
+        time_to = time.time()
+        self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
+
+
+        time_from = time.time()
+        context = a.acquire_context(EHealthKitAgent.Measurement.TEMPERATURE, is_series=False)
+        # context = a.acquire_context(EHealthKitAgent.Measurement.ECG)
+        time_to = time.time()
+        self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
+        self.logger.info("Acquired Context: %s" % context)
+        size = len(context['data']['value'])
+
+        time_from = time.time()
+        a.transmit(context, is_series=False)
         time_to = time.time()
         self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
 
