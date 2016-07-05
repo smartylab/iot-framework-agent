@@ -81,7 +81,7 @@ class SpheroBallAgentTestCase(unittest.TestCase):
     def runTest(self):
         import pygame
         time_from = time.time()
-        a = SpheroBallAgent(addr=self.addr)
+        a = SpheroBallAgent(self.user_id, self.device_item_id, self.addr)
         time_to = time.time()
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
 
