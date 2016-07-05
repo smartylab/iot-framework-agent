@@ -130,7 +130,7 @@ class EHealthKitAgent(DeviceAgent):
 
     def acquire_context(self, meas_type, is_series=False, duration=10, interval=0.02, retry=1):
         """
-        :param meas_types: a list of measurement types like ['pulse', 'ecg']
+        :param meas_type: measurement types like 'pulse' and 'ecg'
         :return: acquired measurements as a json array
         """
 
@@ -229,11 +229,11 @@ class SpheroBallAgent(BluetoothDeviceAgent):
         if self.conn is not None:
             self.conn.close()
 
-    def roll(self, speed=50, heading=0, state=0x01):
+    def roll(self, speed=50, heading=0):
         self.speed = speed*2/255
         self.angle = heading
         if self.connected:
-            self.conn.send(self.sphero.msg_roll(speed, heading, state, False))
+            self.conn.send(self.sphero.msg_roll(speed, heading, 0x01, False))
 
     def acquire_context(self):
         return {

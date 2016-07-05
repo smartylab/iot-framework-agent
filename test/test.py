@@ -198,7 +198,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
     def runTest(self):
         import pygame
         time_from = time.time()
-        a = RollingSpiderAgent(addr=self.addr)
+        a = RollingSpiderAgent(self.user_id, self.device_item_id, self.addr)
         if not a.connected:
             self.logger.error("Cannot connect to the device, %s" % self.device_item)
             return
