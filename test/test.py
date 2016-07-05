@@ -56,27 +56,9 @@ class SpheroBallAgentTestCase(unittest.TestCase):
         self.addr = addr
 
     def setUp(self):
-        self.user_id = 'mkkim'
-        self.password = '1234'
-        self.device_item_id = 8
-
-        self.connection_data = {
-            "user_id": self.user_id,
-            "password": self.password,
-            "device_item_id": self.device_item_id
-        }
-        res = requests.post(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
-        assert res['code'] == 'SUCCESS'
-        self.device_item = res['device_item']
-        self.device_model = res['device_model']
-        self.addr = self.device_item['item_address']
         self.is_running = True
         self.logger = logging.getLogger("SpheroBallAgentTestCase")
         self.logger.setLevel(logging.INFO)
-
-    def tearDown(self):
-        res = requests.delete(settings.CONNECT_API, data=json.dumps(self.connection_data)).json()
-        self.logger.info(res)
 
     def runTest(self):
         import pygame
@@ -200,7 +182,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
         time_from = time.time()
         a = RollingSpiderAgent(self.user_id, self.device_item_id, self.addr)
         if not a.connected:
-            self.logger.error("Cannot connect to the device, %s" % self.device_item)
+            self.logger.error("Cannot connect to the device, %s" % self.device_item_id)
             return
         time_to = time.time()
         self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
