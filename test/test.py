@@ -4,6 +4,8 @@ import unittest
 
 import time
 import threading
+
+import datetime
 import requests
 
 import numpy as np
@@ -30,35 +32,51 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         time_from = time.time()
         a = EHealthKitAgent(self.user_id, self.device_item_id, self.addr)
         time_to = time.time()
-        self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
+        self.logger.info("Connection ===================================================")
+        self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+        self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+        self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
 
-        time_from = time.time()
-        context = a.acquire_context(EHealthKitAgent.Measurement.ECG, is_series=True, duration=3)
-        # context = a.acquire_context(EHealthKitAgent.Measurement.ECG)
-        time_to = time.time()
-        self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
-        self.logger.info("Acquired Context: %s" % context)
-        size = len(context['data']['value'])
-        self.logger.info("Size of Contexts: %s, Average Acquisition Time: %s" % (size, (time_to-time_from)/size))
+        # time_from = time.time()
+        # context = a.acquire_context(EHealthKitAgent.Measurement.ECG, is_series=True, duration=3)
+        # time_to = time.time()
+        # self.logger.info("Context Acquisition ===================================================")
+        # self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+        # self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+        # self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
+        # self.logger.info("-------------------------")
+        # self.logger.info("Acquired Context: %s" % context)
+        # size = len(context['data']['value'])
+        # self.logger.info("Size of Contexts: %s, Average Acquisition Time: %s" % (size, (time_to-time_from)/size))
+        #
+        # time_from = time.time()
+        # a.transmit(context, is_series=True)
+        # time_to = time.time()
+        # self.logger.info("Context Transmission ===================================================")
+        # self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+        # self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+        # self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
 
-        time_from = time.time()
-        a.transmit(context, is_series=True)
-        time_to = time.time()
-        self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
+        for _ in range(50):
+            time_from = time.time()
+            context = a.acquire_context(EHealthKitAgent.Measurement.ECG, is_series=False)
+            time_to = time.time()
+            self.logger.info("Context Acquisition ===================================================")
+            self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
+            self.logger.info("-------------------------")
+            self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
+            self.logger.info("Acquired Context: %s" % context)
+            size = len(context['data']['value'])
 
-
-        time_from = time.time()
-        context = a.acquire_context(EHealthKitAgent.Measurement.TEMPERATURE, is_series=False)
-        # context = a.acquire_context(EHealthKitAgent.Measurement.ECG)
-        time_to = time.time()
-        self.logger.info("Time Taken for Acquisition: %s (s)" % (time_to - time_from))
-        self.logger.info("Acquired Context: %s" % context)
-        size = len(context['data']['value'])
-
-        time_from = time.time()
-        a.transmit(context, is_series=False)
-        time_to = time.time()
-        self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
+            time_from = time.time()
+            a.transmit(context, is_series=False)
+            time_to = time.time()
+            self.logger.info("Context Transmission ===================================================")
+            self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
 
 
 class SpheroBallAgentTestCase(unittest.TestCase):
@@ -78,7 +96,10 @@ class SpheroBallAgentTestCase(unittest.TestCase):
         time_from = time.time()
         a = SpheroBallAgent(self.user_id, self.device_item_id, self.addr)
         time_to = time.time()
-        self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
+        self.logger.info("Connection ===================================================")
+        self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+        self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+        self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
 
         pygame.init()
         screen = pygame.display.set_mode((400,400),0,32)
@@ -159,7 +180,10 @@ class SpheroBallAgentTestCase(unittest.TestCase):
                 time_from = time.time()
                 a.transmit(context)
                 time_to = time.time()
-                self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
+                self.logger.info("Context Transmission ===================================================")
+                self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+                self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+                self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
                 clock2.tick(4)
 
         threading.Thread(target=transmit).start()
@@ -198,7 +222,10 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
             self.logger.error("Cannot connect to the device, %s" % self.device_item_id)
             return
         time_to = time.time()
-        self.logger.info("Time Taken for Connection: %s (s)" % (time_to - time_from))
+        self.logger.info("Connection ===================================================")
+        self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+        self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+        self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
 
         pygame.init()
         screen = pygame.display.set_mode((400,400),0,32)
@@ -232,8 +259,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
 
         pygame.display.flip()
 
-        clock1 = pygame.time.Clock()
-        clock2 = pygame.time.Clock()
+        clock = pygame.time.Clock()
 
         keys = pygame.key.get_pressed()
 
@@ -243,7 +269,10 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
             self.logger.info("Acquired Context: %s" % context)
             a.transmit(context)
             time_to = time.time()
-            self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
+            self.logger.info("Context Transmission ===================================================")
+            self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
 
         def handle():
             while self.is_running:
@@ -278,7 +307,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
                     a.decr_speed()
                     transmit()
 
-                clock1.tick(4)
+                clock.tick(4)
 
         threading.Thread(target=handle).start()
 
@@ -306,7 +335,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
 
                 if event.type == pygame.KEYUP:
                     keys = pygame.key.get_pressed()
-            clock1.tick(64)
+            clock.tick(64)
 
         a.disconnect()
         pygame.quit()
@@ -346,8 +375,11 @@ class WithingsAgentTestCase(unittest.TestCase):
             time.sleep(1)
         contexts = a.acquire(MEASTYPE.pulse)
         for context in contexts:
-            self.logger.info("Context: %s" % context)
+            self.logger.info("Acquired Context: %s" % context)
             time_from = time.time()
             a.transmit(context)
             time_to = time.time()
-            self.logger.info("Time Taken for Transmission: %s (s)" % (time_to - time_from))
+            self.logger.info("Context Transmission ===================================================")
+            self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
+            self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
