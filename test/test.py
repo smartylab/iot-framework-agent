@@ -219,7 +219,7 @@ class RollingSpiderAgentTestCase(unittest.TestCase):
         time_from = time.time()
         a = RollingSpiderAgent(self.user_id, self.device_item_id, self.addr)
         if not a.connected:
-            self.logger.error("Cannot connect to the device, %s" % self.device_item_id)
+            self.logger.error("Cannot connect to the device, %s. Check the bluetooth connection." % self.device_item_id)
             return
         time_to = time.time()
         self.logger.info("Connection ===================================================")

@@ -267,8 +267,6 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
         self.status = self.agentstatuslist[0]
         self.drone = minidrone.MiniDrone(mac=self.addr, callback=self.callback)
         self.drone.connect()
-        while self.status == self.agentstatuslist[0]:
-                time.sleep(1)
         self.connected = self.status == self.agentstatuslist[1]
 
     def disconnect(self):
