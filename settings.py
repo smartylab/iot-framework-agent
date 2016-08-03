@@ -2,7 +2,7 @@ import os
 
 BASE_DIR = os.path.dirname(__file__)
 
-SERVER_ADDR = "http://203.253.23.30"
+SERVER_ADDR = "http://203.253.23.30:8000"
 USER_API = SERVER_ADDR+'/api/user'
 CONTEXT_API = SERVER_ADDR+'/api/context'
 CONNECT_API = SERVER_ADDR+'/api/connect'
