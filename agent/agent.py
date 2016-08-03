@@ -335,7 +335,7 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
             return self.drone.speed
 
     def callback(self, t, data):
-        logger.info("[%s] %s" % (t, data))
+        logger.debug("[%s] %s" % (t, data))
         if self.status == self.agentstatuslist[0]:  # Connecting
             if t == 4 and data == 'n':
                 self.status = self.agentstatuslist[4]
