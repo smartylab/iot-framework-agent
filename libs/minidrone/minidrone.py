@@ -77,7 +77,7 @@ class WriterThread(StoppableThread):
 
     def run(self):
         self.t_reader.start()
-        while True:
+        while self.drone.connected:
             if self.stop_event.is_set() and self.drone.q.empty():
                 self.drone.q.join()
                 self.gatt.sendeof()
@@ -100,6 +100,7 @@ class WriterThread(StoppableThread):
 class MiniDrone(object):
 
     def __init__(self, mac=None, callback=None):
+        self.connected = False
         self.mac = mac
         self.callback = callback
         req_missing = self.req_check()
@@ -156,6 +157,7 @@ class MiniDrone(object):
         self.status = S.Disconnected
     
     def connect(self):
+        self.connected = True
         self.cb(0, "Connecting to drone...")
         self.t_writer.start()
         self.low_level('connect', '')
@@ -164,6 +166,7 @@ class MiniDrone(object):
         self.send(self.send_init)
     
     def disconnect(self):
+        self.connected = False
         self.cb(0, "Disconnecting...")
         self.low_level('disconnect', '')
 
