@@ -58,7 +58,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         # self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
         # self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
 
-        for _ in range(50):
+        for _ in range(10):
             time_from = time.time()
             context = a.acquire_context(EHealthKitAgent.Measurement.ECG, is_series=False)
             time_to = time.time()
