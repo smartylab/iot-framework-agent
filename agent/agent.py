@@ -272,7 +272,7 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
     def disconnect(self):
         self.connected = False
         if self.drone is not None:
-            self.drone.disconnect()
+            self.drone.die()
 
     def ascend(self):
         if self.drone is not None:

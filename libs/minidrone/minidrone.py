@@ -165,8 +165,6 @@ class MiniDrone(object):
         self.send(self.send_init)
     
     def disconnect(self):
-        if self.t_writer is not None:
-            self.t_writer.stop()
         self.cb(0, "Disconnecting...")
         self.low_level('disconnect', '')
 
