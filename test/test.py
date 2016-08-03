@@ -36,6 +36,7 @@ class EHealthKitAgentTestCase(unittest.TestCase):
         self.logger.info("Start Time: %s" % datetime.datetime.fromtimestamp(time_from).strftime('%Y-%m-%d %H:%M:%S'))
         self.logger.info("End Time: %s" % datetime.datetime.fromtimestamp(time_to).strftime('%Y-%m-%d %H:%M:%S'))
         self.logger.info("Elapsed Time: %s (s)" % (time_to - time_from))
+        time.sleep(1)
 
         # time_from = time.time()
         # context = a.acquire_context(EHealthKitAgent.Measurement.ECG, is_series=True, duration=3)
