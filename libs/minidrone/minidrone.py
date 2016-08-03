@@ -49,7 +49,7 @@ class ReaderThread(StoppableThread):
         
     def run(self):
         patterns = self.reader.compile_pattern_list([dronedict.P_NOTIFICATION, dronedict.P_BATTERY, dronedict.P_CONNECTED, pexpect.TIMEOUT, pexpect.EOF])
-        while self.drone.connected:
+        while True:
             if not self.stop_event.is_set():
                 index = self.reader.expect_list(patterns, timeout=5)
                 if index == 0:
@@ -77,7 +77,7 @@ class WriterThread(StoppableThread):
 
     def run(self):
         self.t_reader.start()
-        while self.drone.connected:
+        while True:
             if self.stop_event.is_set() and self.drone.q.empty():
                 self.drone.q.join()
                 self.gatt.sendeof()
@@ -157,7 +157,6 @@ class MiniDrone(object):
         self.status = S.Disconnected
     
     def connect(self):
-        self.connected = True
         self.cb(0, "Connecting to drone...")
         self.t_writer.start()
         self.low_level('connect', '')
@@ -166,7 +165,8 @@ class MiniDrone(object):
         self.send(self.send_init)
     
     def disconnect(self):
-        self.connected = False
+        if self.t_writer is not None:
+            self.t_writer.stop()
         self.cb(0, "Disconnecting...")
         self.low_level('disconnect', '')
 
