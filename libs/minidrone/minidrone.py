@@ -160,7 +160,7 @@ class MiniDrone(object):
         self.cb(0, "Connecting to drone...")
         self.t_writer.start()
         self.low_level('connect', '')
-        time.sleep(1)
+        time.sleep(0.5)
         self.status = S.Init
         self.send(self.send_init)
     
@@ -272,11 +272,14 @@ class MiniDrone(object):
         self.low_level('0x0116', switch)
         self.low_level('0x0126', switch)
         self.setup_time()
-        time.sleep(1.2)
+        # time.sleep(1.2)
+        time.sleep(0.5)
         self.send_ref('00020000')
-        time.sleep(1.2)
+        # time.sleep(1.2)
+        time.sleep(0.5)
         self.send_ref('00040000')
-        time.sleep(2)
+        # time.sleep(2)
+        time.sleep(0.5)
         self.wheels(True)
         self.cutout(True)
 

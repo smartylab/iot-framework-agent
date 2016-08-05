@@ -359,7 +359,7 @@ class RollingSpiderAgent(BluetoothDeviceAgent):
             "time": int(time.time()*1000),
             "data": [
                 {"sub_type": "configured speed", "value": self.drone.speed, "unit": "cm/s"},
-                {"sub_type": "status", "value": self.statuslist[self.drone.status]}
+                {"sub_type": "status", "value": self.status}
             ]
         }
 
